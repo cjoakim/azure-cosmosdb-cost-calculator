@@ -59,7 +59,7 @@ availability_zone:             false
 calculate_costs:                true
 ```
 
-Then execute Program.cs, passing that text specification file:
+Then execute Program.cs, passing the name of the text specification file:
 
 ```
 $ dotnet run specification1.txt
@@ -227,6 +227,5 @@ Xunit unit tests are included in this project.
 ## What is Cucumber?
 
 It's a software testing framework that allows you to express tests
-in an English-like syntax of your own creation.  
-
+in an English-like syntax of your own creation, see: 
 [Cucumber](https://en.wikipedia.org/wiki/Cucumber_(software))
