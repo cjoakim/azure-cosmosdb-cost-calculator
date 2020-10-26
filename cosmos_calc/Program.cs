@@ -42,6 +42,12 @@ namespace CJoakim.CosmosCalc
                                     currentContainer = new Container();
                                     currentContainer.name = value;
                                     break; 
+                                case "provisioning_type": 
+                                    currentContainer.provisioningType = value;
+                                    break; 
+                                case "replication_type": 
+                                    currentContainer.replicationType = value;
+                                    break; 
                                 case "ru_per_second":
                                     currentContainer.ruPerSecond = Int32.Parse(value);
                                     break;

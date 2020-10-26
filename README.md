@@ -1,30 +1,195 @@
 # azure-cosmosdb-cost-calculator
 
-Calculate CosmosDB costs using DotNet Core and a "Cucumber-like" specification syntax
+Calculate CosmosDB costs using DotNet Core code and a "Cucumber-like" specification syntax.
 
-## Usage
+You **do not** have to modify the code; just create specification file(s)
+for your particular use-cases.
+
+## Usage - Example 1
 
 First, define your CosmosDB databases/containers in a **Cucumber-like** 
 specification text format like the following:
 
 ```
+Sample Costs Specification #1
+This file is passed to Program.cs
 
+container:                   events1
+provisioning_type:          standard
+replication_type:             single
+region_count:                      1
+size_in_gb:                        1
+max_historical_manual_ru:       1000
+max_historical_auto_ru:            0
+ru_per_second:                   500
+availability_zone:             false
+calculate_costs:                true
+
+container:                   events2
+provisioning_type:          standard
+replication_type:             single
+region_count:                      1
+size_in_gb:                        1
+max_historical_manual_ru:       1000
+max_historical_auto_ru:            0
+ru_per_second:                   500
+availability_zone:              true
+calculate_costs:                true
+
+container:              assignment1a
+provisioning_type:          standard
+replication_type:             single
+region_count:                      1
+size_in_tb:                        1
+max_historical_manual_ru:          0
+max_historical_auto_ru:            0
+ru_per_second:                200000
+availability_zone:             false
+calculate_costs:                true
+
+container:              assignment1b
+provisioning_type:          standard
+replication_type:             single
+region_count:                      1
+size_in_tb:                      100
+max_historical_manual_ru:          0
+max_historical_auto_ru:            0
+ru_per_second:                200000
+availability_zone:             false
+calculate_costs:                true
 ```
 
 Then execute Program.cs, passing that text specification file:
 
 ```
-
+$ dotnet run specification1.txt
 ```
 
 The output is in JSON format, and contains both the specification values
 for each container as well as the calculated costs for it.
 
 ```
+Using input file: specification1.txt
+{
+  "name": "events1",
+  "sizeInGB": 1,
+  "availabilityZone": false,
+  "replicationType": "single",
+  "regionCount": 1,
+  "ruPerSecond": 500,
+  "maxHistoricalManualRu": 1000,
+  "maxHistoricalAutoRu": 0,
+  "calculatedMinRU": 400,
+  "calculatedRatePer100RU": 0.008,
+  "calculatedRUInHundreds": 5,
+  "calculatedRuDollarsPerHour": 0.04,
+  "calculatedRuDollarsPerMonth": 29.12,
+  "calculatedStoragePerMonth": 0.25,
+  "calculatedTotalPerMonth": 29.37
+}
+{
+  "name": "events2",
+  "sizeInGB": 1,
+  "availabilityZone": true,
+  "replicationType": "single",
+  "regionCount": 1,
+  "ruPerSecond": 500,
+  "maxHistoricalManualRu": 1000,
+  "maxHistoricalAutoRu": 0,
+  "calculatedMinRU": 400,
+  "calculatedRatePer100RU": 0.01,
+  "calculatedRUInHundreds": 5,
+  "calculatedRuDollarsPerHour": 0.05,
+  "calculatedRuDollarsPerMonth": 36.4,
+  "calculatedStoragePerMonth": 0.25,
+  "calculatedTotalPerMonth": 36.65
+}
+{
+  "name": "assignment1a",
+  "sizeInGB": 1024,
+  "availabilityZone": false,
+  "replicationType": "single",
+  "regionCount": 1,
+  "ruPerSecond": 200000,
+  "maxHistoricalManualRu": 0,
+  "maxHistoricalAutoRu": 0,
+  "calculatedMinRU": 10300,
+  "calculatedRatePer100RU": 0.008,
+  "calculatedRUInHundreds": 2000,
+  "calculatedRuDollarsPerHour": 16,
+  "calculatedRuDollarsPerMonth": 11648,
+  "calculatedStoragePerMonth": 256,
+  "calculatedTotalPerMonth": 11904
+}
+{
+  "name": "assignment1b",
+  "sizeInGB": 102400,
+  "availabilityZone": false,
+  "replicationType": "single",
+  "regionCount": 1,
+  "ruPerSecond": 200000,
+  "maxHistoricalManualRu": 0,
+  "maxHistoricalAutoRu": 0,
+  "calculatedMinRU": 1024000,
+  "calculatedRatePer100RU": 0.008,
+  "calculatedRUInHundreds": 2000,
+  "calculatedRuDollarsPerHour": 16,
+  "calculatedRuDollarsPerMonth": 11648,
+  "calculatedStoragePerMonth": 25600,
+  "calculatedTotalPerMonth": 37248
+}
+```
+
+---
+
+## Usage - Example 2
+
+### Specification File
+
+```
+Sample Costs Specification #2
+This file is passed to Program.cs
+
+container:                 customers
+provisioning_type:         autoscale
+replication_type:       multi-master
+region_count:                      2
+size_in_tb:                      6.2
+calculate_costs:                true
+```
+
+### Execution and Output
+
+```
+$ dotnet run specification2.txt
+
+Using input file: specification2.txt
+{
+  "name": "customers",
+  "sizeInGB": 6348.8,
+  "availabilityZone": false,
+  "replicationType": "multi-master",
+  "regionCount": 2,
+  "ruPerSecond": 0,
+  "maxHistoricalManualRu": 0,
+  "maxHistoricalAutoRu": 0,
+  "calculatedMinRU": 63500,
+  "calculatedRatePer100RU": 0.016,
+  "calculatedRUInHundreds": 0,
+  "calculatedRuDollarsPerHour": 0,
+  "calculatedRuDollarsPerMonth": 0,
+  "calculatedStoragePerMonth": 1587.2,
+  "calculatedTotalPerMonth": 1587.2
+}
+```
+
+---
+
+## Syntax used by this Calculator
 
 ```
 
-[Cucumber](https://en.wikipedia.org/wiki/Cucumber_(software))
+```
 
 ---
 
@@ -35,3 +200,12 @@ Xunit unit tests are included in this project.
 <p align="center" width="95%">
   <img src="img/cosmos-calculator-in-visual-studio.png">
 </p>
+
+---
+
+## What is Cucumber?
+
+It's a software testing framework that allows you to express tests
+in an English-like syntax of your own creation.  
+
+[Cucumber](https://en.wikipedia.org/wiki/Cucumber_(software))

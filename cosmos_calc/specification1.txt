@@ -1,7 +1,9 @@
-Sample Costs Specification
+Sample Costs Specification #1
 This file is passed to Program.cs
 
 container:                   events1
+provisioning_type:          standard
+replication_type:             single
 region_count:                      1
 size_in_gb:                        1
 max_historical_manual_ru:       1000
@@ -11,6 +13,8 @@ availability_zone:             false
 calculate_costs:                true
 
 container:                   events2
+provisioning_type:          standard
+replication_type:             single
 region_count:                      1
 size_in_gb:                        1
 max_historical_manual_ru:       1000
@@ -20,6 +24,8 @@ availability_zone:              true
 calculate_costs:                true
 
 container:              assignment1a
+provisioning_type:          standard
+replication_type:             single
 region_count:                      1
 size_in_tb:                        1
 max_historical_manual_ru:          0
@@ -29,6 +35,8 @@ availability_zone:             false
 calculate_costs:                true
 
 container:              assignment1b
+provisioning_type:          standard
+replication_type:             single
 region_count:                      1
 size_in_tb:                      100
 max_historical_manual_ru:          0
