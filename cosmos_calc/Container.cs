@@ -26,7 +26,7 @@ namespace CJoakim.CosmosCalc
         // Instance variables:
         public  string name     { get; set; }
         public  double sizeInGB { get; set; }
-        public  string provisioningType;
+        public  string provisioningType { get; set; }
         public  bool   availabilityZone { get; set; }
         public  string replicationType  { get; set; }
         public  int    regionCount      { get; set; }

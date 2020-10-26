@@ -73,6 +73,7 @@ Using input file: specification1.txt
 {
   "name": "events1",
   "sizeInGB": 1,
+  "provisioningType": "standard",
   "availabilityZone": false,
   "replicationType": "single",
   "regionCount": 1,
@@ -90,6 +91,7 @@ Using input file: specification1.txt
 {
   "name": "events2",
   "sizeInGB": 1,
+  "provisioningType": "standard",
   "availabilityZone": true,
   "replicationType": "single",
   "regionCount": 1,
@@ -107,6 +109,7 @@ Using input file: specification1.txt
 {
   "name": "assignment1a",
   "sizeInGB": 1024,
+  "provisioningType": "standard",
   "availabilityZone": false,
   "replicationType": "single",
   "regionCount": 1,
@@ -124,6 +127,7 @@ Using input file: specification1.txt
 {
   "name": "assignment1b",
   "sizeInGB": 102400,
+  "provisioningType": "standard",
   "availabilityZone": false,
   "replicationType": "single",
   "regionCount": 1,
@@ -167,6 +171,7 @@ Using input file: specification2.txt
 {
   "name": "customers",
   "sizeInGB": 6348.8,
+  "provisioningType": "autoscale",
   "availabilityZone": false,
   "replicationType": "multi-master",
   "regionCount": 2,
@@ -185,10 +190,26 @@ Using input file: specification2.txt
 
 ---
 
-## Syntax used by this Calculator
+## Specification Syntax used by this Calculator
 
 ```
+Statement                    Values
+---------                    ------
+container:                   Your container name or use-case name
+provisioning_type:           standard (default) or autoscale
+replication_type:            single (default), multi-region, or multi-master
+ru_per_second:               The number of RUs in the container
+region_count:                The number of regions, defaults to 1
+availability_zone:           Boolean, defaults to false
+size_in_bytes:               Specify the storage quantity in terms of bytes
+size_in_mb:                  Specify the storage quantity in terms of MB
+size_in_gb:                  Specify the storage quantity in terms of GB
+size_in_tb:                  Specify the storage quantity in terms of TB
+max_historical_manual_ru:    Optional
+max_historical_auto_ru:      Optional
 
+calculate_min_ru:            boolean, triggers the calculation
+calculate_costs:             boolean, triggers the calculation
 ```
 
 ---
