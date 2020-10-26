@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cosmos_calc", "cosmos_calc.csproj", "{D896A603-9103-459F-AC5C-E8FA71C54AB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cosmos_calc.tests", "..\cosmos_calc.tests\cosmos_calc.tests.csproj", "{1BEC9293-0B14-4DCF-92AE-9FF7FF6EE860}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D896A603-9103-459F-AC5C-E8FA71C54AB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D896A603-9103-459F-AC5C-E8FA71C54AB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D896A603-9103-459F-AC5C-E8FA71C54AB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D896A603-9103-459F-AC5C-E8FA71C54AB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BEC9293-0B14-4DCF-92AE-9FF7FF6EE860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BEC9293-0B14-4DCF-92AE-9FF7FF6EE860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BEC9293-0B14-4DCF-92AE-9FF7FF6EE860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BEC9293-0B14-4DCF-92AE-9FF7FF6EE860}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
