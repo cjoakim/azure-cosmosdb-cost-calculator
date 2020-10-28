@@ -239,6 +239,18 @@ Xunit unit tests are included in this project.
   <img src="img/cosmos-calculator-in-visual-studio.png">
 </p>
 
+### Executing the unit tests outside of Visual Studio
+
+```
+$ cd cosmos_calc.tests/
+$ dotnet test
+...
+Test Run Successful.
+Total tests: 54
+     Passed: 54
+ Total time: 1.9399 Seconds
+```
+
 ---
 
 ## What is Cucumber?
