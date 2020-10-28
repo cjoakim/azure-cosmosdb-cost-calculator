@@ -5,10 +5,27 @@ Calculate CosmosDB costs using DotNet Core code and a "Cucumber-like" specificat
 You **do not** have to modify the code; just create specification file(s)
 for your particular use-cases.
 
+## Getting Started
+
+This calculator assumes that you have [git](https://git-scm.com/) and 
+[DotNet Core 3.1](https://dotnet.microsoft.com/download/dotnet-core) 
+installed on your system.
+
+If so, then execute the following commands in a Terminal/PowerShell window.
+
+```
+$ git clone https://github.com/cjoakim/azure-cosmosdb-cost-calculator.git
+$ cd azure-cosmosdb-cost-calculator 
+$ cd cosmos_calc
+$ dotnet restore
+$ dotnet build
+```
+
+
 ## Usage - Example 1
 
-First, define your CosmosDB databases/containers in a **Cucumber-like** 
-specification text format like the following:
+First, define your CosmosDB databases/container specifications in a **Cucumber-like** 
+text format like the following:
 
 ```
 Sample Costs Specification #1
@@ -208,8 +225,8 @@ size_in_tb:                  Specify the storage quantity in terms of TB
 max_historical_manual_ru:    Optional
 max_historical_auto_ru:      Optional
 
-calculate_min_ru:            boolean, triggers the calculation
-calculate_costs:             boolean, triggers the calculation
+calculate_min_ru:            boolean, triggers a Minimum RU calculation
+calculate_costs:             boolean, triggers a Cost calculation
 ```
 
 ---
