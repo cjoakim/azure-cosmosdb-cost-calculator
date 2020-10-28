@@ -4,7 +4,7 @@ using System.Collections.Generic;
 // Class Container represents a Container in CosmosDB for the purpose
 // of calculating costs.
 //
-// Chris Joakim, Microsoft, 2020/10/26
+// Chris Joakim, Microsoft, 2020/10/28
 
 namespace CJoakim.CosmosCalc
 {

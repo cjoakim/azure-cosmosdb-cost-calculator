@@ -12,7 +12,7 @@ using System.Text.Json.Serialization;
 //   dotnet run specification1.txt
 //   dotnet run specification2.txt
 //
-// Chris Joakim, Microsoft, 2020/10/26
+// Chris Joakim, Microsoft, 2020/10/28
 
 namespace CJoakim.CosmosCalc
 {
@@ -73,7 +73,10 @@ namespace CJoakim.CosmosCalc
                                     break; 
                                 case "size_in_tb": 
                                     currentContainer.SetSizeInTB(Double.Parse(value));
-                                    break; 
+                                    break;
+                                case "size_in_pb": 
+                                    currentContainer.SetSizeInPB(Double.Parse(value));
+                                    break;  
                                 case "max_historical_manual_ru": 
                                     currentContainer.maxHistoricalManualRu = Int32.Parse(value);
                                     break; 

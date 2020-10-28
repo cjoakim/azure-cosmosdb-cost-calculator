@@ -8,8 +8,8 @@ for your particular use-cases.
 ### Wait, what is Cucumber?
 
 It's a software testing framework that allows you to express tests
-in an English-like syntax of your own creation, see: 
-[Cucumber](https://en.wikipedia.org/wiki/Cucumber_(software))
+in an English-like syntax of your own creation, see  
+[Cucumber](https://en.wikipedia.org/wiki/Cucumber_(software)).
 
 ---
 
@@ -52,6 +52,7 @@ size_in_bytes:               Specify the storage quantity in terms of bytes
 size_in_mb:                  Specify the storage quantity in terms of MB
 size_in_gb:                  Specify the storage quantity in terms of GB
 size_in_tb:                  Specify the storage quantity in terms of TB
+size_in_pb:                  Specify the storage quantity in terms of PB
 max_historical_manual_ru:    Optional
 max_historical_auto_ru:      Optional
 
