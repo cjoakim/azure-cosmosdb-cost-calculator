@@ -267,3 +267,11 @@ Total tests: 54
      Passed: 54
  Total time: 1.9399 Seconds
 ```
+
+---
+
+## CosmosDB Cost Links
+
+- https://cosmos.azure.com/capacitycalculator/
+- https://azure.microsoft.com/en-us/pricing/details/cosmos-db/
+- https://docs.microsoft.com/en-us/azure/cosmos-db/understand-your-bill
