@@ -275,3 +275,4 @@ Total tests: 54
 - https://cosmos.azure.com/capacitycalculator/
 - https://azure.microsoft.com/en-us/pricing/details/cosmos-db/
 - https://docs.microsoft.com/en-us/azure/cosmos-db/understand-your-bill
+- https://azure.microsoft.com/en-us/pricing/calculator/
