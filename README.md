@@ -5,6 +5,14 @@ Calculate CosmosDB costs using DotNet Core code and a "Cucumber-like" specificat
 You **do not** have to modify the code; just create specification file(s)
 for your particular use-cases.
 
+### Wait, what is Cucumber?
+
+It's a software testing framework that allows you to express tests
+in an English-like syntax of your own creation, see: 
+[Cucumber](https://en.wikipedia.org/wiki/Cucumber_(software))
+
+---
+
 ## Getting Started
 
 This calculator assumes that you have [git](https://git-scm.com/) and 
@@ -21,11 +29,42 @@ $ dotnet restore
 $ dotnet build
 ```
 
+---
+
+## The "Specification Language" used by this Calculator
+
+This syntax is inspired by the Cucumber testing tool, though the
+implementation of this calculator does not use cucumber.
+
+The idea is to express your CosmosDB container specification in an English-like
+syntax, then let the code perform the calculations given **your specification file**.
+
+```
+Statement                    Values
+---------                    ------
+container:                   Your container name or use-case name
+provisioning_type:           standard (default) or autoscale
+replication_type:            single (default), multi-region, or multi-master
+ru_per_second:               The number of RUs in the container
+region_count:                The number of regions, defaults to 1
+availability_zone:           Boolean, defaults to false
+size_in_bytes:               Specify the storage quantity in terms of bytes
+size_in_mb:                  Specify the storage quantity in terms of MB
+size_in_gb:                  Specify the storage quantity in terms of GB
+size_in_tb:                  Specify the storage quantity in terms of TB
+max_historical_manual_ru:    Optional
+max_historical_auto_ru:      Optional
+
+calculate_min_ru:            boolean, triggers a Minimum RU calculation
+calculate_costs:             boolean, triggers a Cost calculation
+```
+
 
 ## Usage - Example 1
 
 First, define your CosmosDB databases/container specifications in a **Cucumber-like** 
-text format like the following:
+text file like the following.  This example will produce cost calculations for
+the **four** containers in the specification file.
 
 ```
 Sample Costs Specification #1
@@ -83,7 +122,8 @@ $ dotnet run specification1.txt
 ```
 
 The output is in JSON format, and contains both the specification values
-for each container as well as the calculated costs for it.
+for each container as well as the calculated costs for it.  The attributes
+in the JSON which begin with "calculated" are calculated by the program.
 
 ```
 Using input file: specification1.txt
@@ -207,30 +247,6 @@ Using input file: specification2.txt
 
 ---
 
-## Specification Syntax used by this Calculator
-
-```
-Statement                    Values
----------                    ------
-container:                   Your container name or use-case name
-provisioning_type:           standard (default) or autoscale
-replication_type:            single (default), multi-region, or multi-master
-ru_per_second:               The number of RUs in the container
-region_count:                The number of regions, defaults to 1
-availability_zone:           Boolean, defaults to false
-size_in_bytes:               Specify the storage quantity in terms of bytes
-size_in_mb:                  Specify the storage quantity in terms of MB
-size_in_gb:                  Specify the storage quantity in terms of GB
-size_in_tb:                  Specify the storage quantity in terms of TB
-max_historical_manual_ru:    Optional
-max_historical_auto_ru:      Optional
-
-calculate_min_ru:            boolean, triggers a Minimum RU calculation
-calculate_costs:             boolean, triggers a Cost calculation
-```
-
----
-
 ## This Project in Visual Studio
 
 Xunit unit tests are included in this project.
@@ -250,11 +266,3 @@ Total tests: 54
      Passed: 54
  Total time: 1.9399 Seconds
 ```
-
----
-
-## What is Cucumber?
-
-It's a software testing framework that allows you to express tests
-in an English-like syntax of your own creation, see: 
-[Cucumber](https://en.wikipedia.org/wiki/Cucumber_(software))
