@@ -6,4 +6,5 @@ provisioning_type:         autoscale
 replication_type:       multi-master
 region_count:                      2
 size_in_tb:                      6.2
+ru_per_second:                 20000
 calculate_costs:                true

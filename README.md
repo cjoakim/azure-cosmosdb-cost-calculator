@@ -217,7 +217,9 @@ provisioning_type:         autoscale
 replication_type:       multi-master
 region_count:                      2
 size_in_tb:                      6.2
+ru_per_second:                 20000
 calculate_costs:                true
+
 ```
 
 ### Execution and Output
@@ -233,16 +235,16 @@ Using input file: specification2.txt
   "availabilityZone": false,
   "replicationType": "multi-master",
   "regionCount": 2,
-  "ruPerSecond": 0,
+  "ruPerSecond": 20000,
   "maxHistoricalManualRu": 0,
   "maxHistoricalAutoRu": 0,
   "calculatedMinRU": 63500,
   "calculatedRatePer100RU": 0.016,
-  "calculatedRUInHundreds": 0,
-  "calculatedRuDollarsPerHour": 0,
-  "calculatedRuDollarsPerMonth": 0,
+  "calculatedRUInHundreds": 200,
+  "calculatedRuDollarsPerHour": 3.2,
+  "calculatedRuDollarsPerMonth": 2329.6,
   "calculatedStoragePerMonth": 1587.2,
-  "calculatedTotalPerMonth": 1587.2
+  "calculatedTotalPerMonth": 3916.8
 }
 ```
 
