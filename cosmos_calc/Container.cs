@@ -4,7 +4,7 @@ using System.Collections.Generic;
 // Class Container represents a Container in CosmosDB for the purpose
 // of calculating costs.
 //
-// Chris Joakim, Microsoft, 2020/10/28
+// Chris Joakim, Microsoft, 2020/10/31
 
 namespace CJoakim.CosmosCalc
 {
@@ -174,7 +174,7 @@ namespace CJoakim.CosmosCalc
             calculatedRuDollarsPerMonth = 
                 calculatedRuDollarsPerHour * HOURS_PER_MONTH;
 
-            calculatedStoragePerMonth = sizeInGB * 0.25;
+            calculatedStoragePerMonth = (sizeInGB * 0.25) * ((double) regionCount);
 
             calculatedTotalPerMonth = 
                 calculatedRuDollarsPerMonth + calculatedStoragePerMonth;

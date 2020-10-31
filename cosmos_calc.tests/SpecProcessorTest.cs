@@ -135,7 +135,7 @@ calculate_costs:                true
         }
 
         [Fact]
-        public void Spec3_Autoscale_InBytes_Test()
+        public void Spec3B_Autoscale_InBytes_Test()
         {
             List<string> specLines = arrayToList(Spec3_Autoscale_InBytes().Split("\n"));
             SpecProcessor sp = new SpecProcessor(specLines);
@@ -147,7 +147,7 @@ calculate_costs:                true
 
             //displayObjectAsJson(c);
 
-            Assert.True(c.name == "customers");
+            Assert.True(c.name == "spec3b");
             Assert.True(c.provisioningType == "autoscale");
             Assert.True(c.replicationType == "multi-master");
             Assert.True(c.availabilityZone == false);
@@ -165,14 +165,14 @@ calculate_costs:                true
             Assert.True(c.calculatedRuDollarsPerHour == 3.2);
 
             Assert.True(c.calculatedRuDollarsPerMonth == 2329.6);
-            Assert.True(c.calculatedStoragePerMonth == 3.75);
-            Assert.True(c.calculatedTotalPerMonth == 2333.35);
+            Assert.True(c.calculatedStoragePerMonth == 7.5);
+            Assert.True(c.calculatedTotalPerMonth == 2337.1);
         }
 
         private string Spec3_Autoscale_InBytes()
         {
             return @"
-container:                 customers
+container:                    spec3b
 provisioning_type:         autoscale
 replication_type:       multi-master
 region_count:                      2
@@ -183,7 +183,7 @@ calculate_costs:                true
         }
 
         [Fact]
-        public void Spec3_Autoscale_InMB_Test()
+        public void Spec3MB_Autoscale_InMB_Test()
         {
             List<string> specLines = arrayToList(Spec3_Autoscale_InMB().Split("\n"));
             SpecProcessor sp = new SpecProcessor(specLines);
@@ -193,17 +193,19 @@ calculate_costs:                true
             string json = sp.calculationResults[0];
             Container c = JsonSerializer.Deserialize<Container>(json);
 
-            // displayObjectAsJson(c);
+            //displayObjectAsJson(c);
 
             // Same values as Spec3_Autoscale_InBytes_Test
             Assert.True(c.sizeInGB == 15.0);
-            Assert.True(c.calculatedTotalPerMonth == 2333.35);
+            Assert.True(c.calculatedRuDollarsPerMonth == 2329.6);
+            Assert.True(c.calculatedStoragePerMonth == 7.5);
+            Assert.True(c.calculatedTotalPerMonth == 2337.1);
         }
 
         private string Spec3_Autoscale_InMB()
         {
             return @"
-container:                 customers
+container:                   spec3mb
 provisioning_type:         autoscale
 replication_type:       multi-master
 region_count:                      2
@@ -229,7 +231,7 @@ calculate_costs:                true
             Assert.True(c.name == "spec4");
             Assert.True(c.sizeInGB == 6348.8);
             Assert.True(c.calculatedMinRU == 63500);
-            Assert.True(c.calculatedStoragePerMonth == 1587.2);
+            Assert.True(c.calculatedStoragePerMonth == 3174.4);
         }
 
         private string Spec4_Autoscale_InTB()
@@ -261,7 +263,7 @@ calculate_costs:                true
             Assert.True(c.name == "spec5");
             Assert.True(c.sizeInGB == 67108864);
             Assert.True(c.calculatedMinRU == 671088700);
-            Assert.True(c.calculatedStoragePerMonth == 16777216);
+            Assert.True(c.calculatedStoragePerMonth == 33554432);
         }
 
         private string Spec5_Autoscale_InPB()
