@@ -12,12 +12,15 @@ using System.Text.Json.Serialization;
 
 namespace CJoakim.CosmosCalc
 {
-    class SpecReader
+    public class SpecReader
     {
         // Instance variables:
         private string specFilename { get; set; }
         private Container currentContainer { get; set; }
-        private List<string> calculationResults { get; set; }
+
+        //The following two are used for unit testing:
+        public List<string> calculationResults { get; set; }  
+        public bool silent { get; set; }
 
         public SpecReader(string filename)
         {
@@ -25,7 +28,9 @@ namespace CJoakim.CosmosCalc
             this.currentContainer = null;
             this.calculationResults = new List<string>();
         }
-        
+
+
+
         public void process()
         {
             Container currentContainer = null; 
@@ -94,7 +99,11 @@ namespace CJoakim.CosmosCalc
                                 if (value == "true")
                                 {
                                     int min = currentContainer.CalculateMinRU();
-                                    Console.WriteLine("calculated min RU: " + min);
+                                    string result ="calculated min RU: " + min;
+                                    calculationResults.Add(result);
+                                    if (!silent) {
+                                        Console.WriteLine(result);
+                                    }
                                 }
                                 break; 
 
@@ -106,7 +115,11 @@ namespace CJoakim.CosmosCalc
                                     {
                                         WriteIndented = true,
                                     };
-                                    Console.WriteLine(JsonSerializer.Serialize(currentContainer, options));
+                                    string result = JsonSerializer.Serialize(currentContainer, options);
+                                    calculationResults.Add(result);
+                                    if (!silent) {
+                                        Console.WriteLine(result);
+                                    }
                                 }
                                 break; 
 
