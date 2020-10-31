@@ -238,7 +238,7 @@ calculate_costs:                true
             string json = sp.calculationResults[0];
             Container c = JsonSerializer.Deserialize<Container>(json);
 
-            displayObjectAsJson(c);
+            //displayObjectAsJson(c);
 
             Assert.True(c.name == "spec4");
             Assert.True(c.sizeInGB == 6348.8);
