@@ -4,7 +4,7 @@ using Xunit;
 using CJoakim.CosmosCalc;
 
 // Xunit unit tests for class Container.
-// Chris Joakim, Microsoft, 2020/10/26
+// Chris Joakim, Microsoft, 2020/10/31
 
 namespace cosmos_calc.tests
 {
@@ -54,6 +54,9 @@ namespace cosmos_calc.tests
             Assert.True(c.replicationType == "multi-master");
 
             Assert.True(c.provisioningType == "standard");
+
+            c.SetReplicationType("single");
+            Assert.True(c.replicationType == "single");
         }
     }
 }

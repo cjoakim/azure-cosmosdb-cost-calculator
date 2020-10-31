@@ -12,7 +12,9 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
     <PackageReference Include="coverlet.collector" Version="1.2.0" />
 
-    <ProjectReference Include="../cosmos_calc/cosmos_calc.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\cosmos_calc\cosmos_calc.csproj" />
+  </ItemGroup>
 </Project>

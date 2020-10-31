@@ -232,7 +232,7 @@ namespace CJoakim.CosmosCalc
 
             if (provisioningType == PROVISIONING_TYPE_SERVERLESS)
             {
-                throw new Exception("provisioningType " + PROVISIONING_TYPE_SERVERLESS + " not yet supported");
+                throw new Exception("provisioningType " + PROVISIONING_TYPE_SERVERLESS + " is not yet supported by this calculator");
             }
 
             return calculatedRatePer100RU;

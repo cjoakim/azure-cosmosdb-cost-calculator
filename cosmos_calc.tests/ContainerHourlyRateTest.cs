@@ -4,7 +4,7 @@ using Xunit;
 using CJoakim.CosmosCalc;
 
 // Xunit unit tests for class Container.
-// Chris Joakim, Microsoft, 2020/10/26
+// Chris Joakim, Microsoft, 2020/10/31
 
 namespace cosmos_calc.tests
 {
@@ -37,6 +37,27 @@ namespace cosmos_calc.tests
             Console.WriteLine("calc: {0}, expected: {1}", calculatedRate, expectedRate);
             Assert.True(calculatedRate + tolerance > expectedRate);
             Assert.True(calculatedRate - tolerance < expectedRate);
+        }
+
+        [Theory]
+        [InlineData("serverless", "single")]
+        public void TestCalculateHourlyRatePer100RU_Serverless(
+            string provType,
+            string replType)
+        {
+            Container c = new Container();
+            c.provisioningType = provType;
+            c.replicationType = replType;
+            try
+            {
+                double calculatedRate = c.CalculateHourlyRatePer100RU();
+                Assert.True(false, "an exception should have been thrown by the impl code");
+            }
+            catch (Exception e)
+            {
+                string expected = "provisioningType serverless is not yet supported by this calculator";
+                Assert.True(e.Message == expected);
+            }
         }
     }
 }
