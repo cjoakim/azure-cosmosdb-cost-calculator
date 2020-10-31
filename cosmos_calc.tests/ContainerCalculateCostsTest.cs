@@ -53,7 +53,7 @@ namespace cosmos_calc.tests
 
             Console.WriteLine("case: {0}, storage: {1}, total: {2}",
                 c.name, c.calculatedStoragePerMonth, c.calculatedTotalPerMonth);
-            Console.WriteLine(JsonSerializer.Serialize(c, options));
+            //Console.WriteLine(JsonSerializer.Serialize(c, options));
 
             Assert.True(c.calculatedStoragePerMonth + tolerance > expectedStorageCostsPerMonth);
             Assert.True(c.calculatedStoragePerMonth - tolerance < expectedStorageCostsPerMonth);

@@ -12,121 +12,101 @@ using System.Text.Json.Serialization;
 
 namespace CJoakim.CosmosCalc
 {
-    public class SpecReader
+    public class SpecProcessor
     {
         // Instance variables:
-        private string specFilename { get; set; }
-        private Container currentContainer { get; set; }
+        public Container currentContainer { get; set; }
 
         //The following two are used for unit testing:
+        public List<string> specLines { get; set; }  
         public List<string> calculationResults { get; set; }  
-        public bool silent { get; set; }
 
-        public SpecReader(string filename)
+        public SpecProcessor(List<string> lines)
         {
-            this.specFilename = filename;
+            this.specLines = lines;
             this.currentContainer = null;
             this.calculationResults = new List<string>();
         }
-
-
 
         public void process()
         {
             Container currentContainer = null; 
 
-            using (var sr = new StreamReader(specFilename))
-            { 
-                while (sr.Peek() >= 0)
+            foreach (string line in specLines)
+            {
+                string[] tokens = line.Split(':');
+                if (tokens.Length == 2)
                 {
-                    string[] tokens = sr.ReadLine().ToLower().Split(':');
-                    if (tokens.Length == 2)
-                    {
-                        string key = tokens[0].Trim();
-                        string value = tokens[1].Trim();
+                    string key = tokens[0].Trim();
+                    string value = tokens[1].Trim();
 
-                        switch (key) {             
-                            case "container": 
-                                currentContainer = new Container();
-                                currentContainer.name = value;
-                                break; 
-                            case "provisioning_type": 
-                                currentContainer.provisioningType = value;
-                                break; 
-                            case "replication_type": 
-                                currentContainer.replicationType = value;
-                                break; 
-                            case "ru_per_second":
-                                currentContainer.ruPerSecond = Int32.Parse(value);
-                                break;
-                            case "region_count":
-                                currentContainer.regionCount = Int32.Parse(value);
-                                break;
-                            case "availability_zone":
-                                if (value == "true") {
-                                    currentContainer.availabilityZone = true;
-                                }
-                                if (value == "false") {
-                                    currentContainer.availabilityZone = false;
-                                }    
-                                break; 
-                            case "size_in_bytes": 
-                                currentContainer.SetSizeInBytes(Int64.Parse(value));
-                                break; 
-                            case "size_in_mb": 
-                                currentContainer.SetSizeInMB(Double.Parse(value));
-                                break; 
-                            case "size_in_gb": 
-                                currentContainer.sizeInGB = Double.Parse(value);
-                                break; 
-                            case "size_in_tb": 
-                                currentContainer.SetSizeInTB(Double.Parse(value));
-                                break;
-                            case "size_in_pb": 
-                                currentContainer.SetSizeInPB(Double.Parse(value));
-                                break;  
-                            case "max_historical_manual_ru": 
-                                currentContainer.maxHistoricalManualRu = Int32.Parse(value);
-                                break; 
-                            case "max_historical_auto_ru": 
-                                currentContainer.maxHistoricalAutoRu = Int32.Parse(value);
-                                break; 
+                    switch (key) {             
+                        case "container": 
+                            currentContainer = new Container();
+                            currentContainer.name = value;
+                            break; 
+                        case "provisioning_type": 
+                            currentContainer.provisioningType = value;
+                            break; 
+                        case "replication_type": 
+                            currentContainer.replicationType = value;
+                            break; 
+                        case "ru_per_second":
+                            currentContainer.ruPerSecond = Int32.Parse(value);
+                            break;
+                        case "region_count":
+                            currentContainer.regionCount = Int32.Parse(value);
+                            break;
+                        case "availability_zone":
+                            if (value == "true") {
+                                currentContainer.availabilityZone = true;
+                            }
+                            if (value == "false") {
+                                currentContainer.availabilityZone = false;
+                            }    
+                            break; 
+                        case "size_in_bytes": 
+                            currentContainer.SetSizeInBytes(Int64.Parse(value));
+                            break; 
+                        case "size_in_mb": 
+                            currentContainer.SetSizeInMB(Double.Parse(value));
+                            break; 
+                        case "size_in_gb": 
+                            currentContainer.sizeInGB = Double.Parse(value);
+                            break; 
+                        case "size_in_tb": 
+                            currentContainer.SetSizeInTB(Double.Parse(value));
+                            break;
+                        case "size_in_pb": 
+                            currentContainer.SetSizeInPB(Double.Parse(value));
+                            break;  
+                        case "max_historical_manual_ru": 
+                            currentContainer.maxHistoricalManualRu = Int32.Parse(value);
+                            break; 
+                        case "max_historical_auto_ru": 
+                            currentContainer.maxHistoricalAutoRu = Int32.Parse(value);
+                            break; 
 
-                            // The above case statements 'set' the state of the container, while
-                            // the following case statements are used to trigger calculations.
+                        // The above case statements 'set' the state of the container, while
+                        // the following case statement is used to trigger calculations.
 
-                            case "calculate_min_ru":
-                                if (value == "true")
+                        case "calculate_costs":
+                            if (value == "true")
+                            {
+                                double costs = currentContainer.CalculateCosts();
+                                var options = new JsonSerializerOptions
                                 {
-                                    int min = currentContainer.CalculateMinRU();
-                                    string result ="calculated min RU: " + min;
-                                    calculationResults.Add(result);
-                                    if (!silent) {
-                                        Console.WriteLine(result);
-                                    }
-                                }
-                                break; 
+                                    WriteIndented = true,
+                                };
+                                string result = JsonSerializer.Serialize(currentContainer, options);
+                                calculationResults.Add(result);
+                                Console.WriteLine(result);
+                            }
+                            break; 
 
-                            case "calculate_costs":
-                                if (value == "true")
-                                {
-                                    double costs = currentContainer.CalculateCosts();
-                                    var options = new JsonSerializerOptions
-                                    {
-                                        WriteIndented = true,
-                                    };
-                                    string result = JsonSerializer.Serialize(currentContainer, options);
-                                    calculationResults.Add(result);
-                                    if (!silent) {
-                                        Console.WriteLine(result);
-                                    }
-                                }
-                                break; 
-
-                            default: 
-                                Console.WriteLine("WARNING: unrecognized statement - " + key); 
-                                break;
-                        }
+                        default: 
+                            Console.WriteLine("WARNING: unrecognized statement - " + key); 
+                            break;
                     }
                 }
             }

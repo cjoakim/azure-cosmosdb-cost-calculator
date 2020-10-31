@@ -3,6 +3,9 @@
 # Execute the Xunit unit tests (on linux/macos), then produce code coverage reports with reportgenerator.
 # Chris Joakim, Microsoft, 2020/10/31
 
+rm -rf TestResults/
+
+
 # Execute the Xunit tests, sending output to both stdout and test.out
 dotnet test --collect:"XPlat Code Coverage" | tee test.out
 

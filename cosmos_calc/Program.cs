@@ -31,10 +31,10 @@ namespace CJoakim.CosmosCalc
                         lines.Add(sr.ReadLine().ToLower().Trim());
                     }
                 }
-                SpecReader specReader = new SpecReader(lines);
-                specReader.process();
+                new SpecProcessor(lines).process();
             }
-            else {
+            else
+            {
                 Console.WriteLine("ERROR: no specification filename specified on the command-line.");
                 Console.WriteLine("Usage:");
                 Console.WriteLine("  dotnet run <your-input-specification-filename>");

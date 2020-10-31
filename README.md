@@ -55,9 +55,7 @@ size_in_tb:                  Specify the storage quantity in terms of TB
 size_in_pb:                  Specify the storage quantity in terms of PB
 max_historical_manual_ru:    Optional
 max_historical_auto_ru:      Optional
-
-calculate_min_ru:            boolean, triggers a Minimum RU calculation
-calculate_costs:             boolean, triggers a Cost calculation
+calculate_costs:             boolean, triggers a Cost calculation if true
 ```
 
 

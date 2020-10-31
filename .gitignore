@@ -1,6 +1,6 @@
 ## cj
 
-cosmos_calc.tests/coveragereport/
+#cosmos_calc.tests/coveragereport/
 cosmos_calc.tests/TestResults/
 cosmos_calc.tests/test.out
 cosmos_calc.tests/test_cobertura_filename.txt
