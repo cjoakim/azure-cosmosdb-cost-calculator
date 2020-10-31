@@ -10,6 +10,9 @@ using CJoakim.CosmosCalc;
 // Xunit unit tests for class SpecProcessor.
 // Chris Joakim, Microsoft, 2020/10/31
 
+// dotnet test --filter "FullyQualifiedName=cosmos_calc.tests.SpecProcessorTest.Spec3MB_Autoscale_InMB_Test"
+
+
 namespace cosmos_calc.tests
 {
     public class SpecProcessorTest
@@ -64,6 +67,7 @@ recommendation: Read the README.md documentation
 
             Assert.True(c.calculatedRuDollarsPerMonth == 29.12);
             Assert.True(c.calculatedStoragePerMonth == 0.25);
+            Assert.True(c.calculatedEgressPerMonth == 0.0);
             Assert.True(c.calculatedTotalPerMonth == 29.37);
         }
 
@@ -166,6 +170,7 @@ calculate_costs:                true
 
             Assert.True(c.calculatedRuDollarsPerMonth == 2329.6);
             Assert.True(c.calculatedStoragePerMonth == 7.5);
+            Assert.True(c.calculatedEgressPerMonth == 0.0);
             Assert.True(c.calculatedTotalPerMonth == 2337.1);
         }
 
@@ -178,6 +183,7 @@ replication_type:       multi-master
 region_count:                      2
 size_in_bytes:           16106127360
 ru_per_second:                 20000
+replicated_gb_per_month:         4.9
 calculate_costs:                true
 ";
         }
@@ -199,7 +205,8 @@ calculate_costs:                true
             Assert.True(c.sizeInGB == 15.0);
             Assert.True(c.calculatedRuDollarsPerMonth == 2329.6);
             Assert.True(c.calculatedStoragePerMonth == 7.5);
-            Assert.True(c.calculatedTotalPerMonth == 2337.1);
+            Assert.True(c.calculatedEgressPerMonth == 0.087);
+            Assert.True(c.calculatedTotalPerMonth == 2337.187);
         }
 
         private string Spec3_Autoscale_InMB()
@@ -211,6 +218,7 @@ replication_type:       multi-master
 region_count:                      2
 size_in_mb:                    15360
 ru_per_second:                 20000
+replicated_gb_per_month:           6
 calculate_costs:                true
 ";
         }
@@ -226,7 +234,7 @@ calculate_costs:                true
             string json = sp.calculationResults[0];
             Container c = JsonSerializer.Deserialize<Container>(json);
 
-            //displayObjectAsJson(c);
+            displayObjectAsJson(c);
 
             Assert.True(c.name == "spec4");
             Assert.True(c.sizeInGB == 6348.8);

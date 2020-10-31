@@ -85,7 +85,10 @@ namespace CJoakim.CosmosCalc
                             break; 
                         case "max_historical_auto_ru": 
                             currentContainer.maxHistoricalAutoRu = Int32.Parse(value);
-                            break; 
+                            break;
+                        case "replicated_gb_per_month":
+                            currentContainer.replicatedGBPerMonth = (Double.Parse(value));
+                            break;
 
                         // The above case statements 'set' the state of the container, while
                         // the following case statement is used to trigger calculations.

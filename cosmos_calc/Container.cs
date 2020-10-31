@@ -33,6 +33,8 @@ namespace CJoakim.CosmosCalc
         public  int    ruPerSecond      { get; set; }
         public  int    maxHistoricalManualRu { get; set; }
         public  int    maxHistoricalAutoRu   { get; set; }
+        public double  replicatedGBPerMonth { get; set; }
+        
 
         // The above fields are set per the input text file,
         // while the following fields are calculated
@@ -41,6 +43,7 @@ namespace CJoakim.CosmosCalc
         public  double calculatedRUInHundreds      { get; set; }
         public  double calculatedRuDollarsPerHour  { get; set; }
         public  double calculatedRuDollarsPerMonth { get; set; }
+        public  double calculatedEgressPerMonth    { get; set; }
         public  double calculatedStoragePerMonth   { get; set; }
         public  double calculatedTotalPerMonth     { get; set; }
 
@@ -55,6 +58,7 @@ namespace CJoakim.CosmosCalc
             this.ruPerSecond      = 0;
             this.calculatedMinRU  = -1;
             this.calculatedRatePer100RU = 0;
+            this.replicatedGBPerMonth = 0.0;
         }
 
         public void SetProvisioningType(string type)
@@ -165,6 +169,7 @@ namespace CJoakim.CosmosCalc
         {
             CalculateMinRU();
             CalculateHourlyRatePer100RU();
+            CalculateEgress();
 
             calculatedRUInHundreds = ruPerSecond / 100.0;
 
@@ -176,8 +181,10 @@ namespace CJoakim.CosmosCalc
 
             calculatedStoragePerMonth = (sizeInGB * 0.25) * ((double) regionCount);
 
-            calculatedTotalPerMonth = 
-                calculatedRuDollarsPerMonth + calculatedStoragePerMonth;
+            calculatedTotalPerMonth =
+                calculatedRuDollarsPerMonth +
+                calculatedStoragePerMonth +
+                calculatedEgressPerMonth;
 
             return calculatedTotalPerMonth;
         }
@@ -236,6 +243,50 @@ namespace CJoakim.CosmosCalc
             }
 
             return calculatedRatePer100RU;
+        }
+
+        public double CalculateEgress()
+        {
+            calculatedEgressPerMonth = 0.0;
+
+            if (regionCount > 1)
+            {
+                if (replicatedGBPerMonth > Constants.EGRESS_TIER_1_MIN_GB)
+                {
+                    double tier1GB = GBInEgressTier(Constants.EGRESS_TIER_1_MIN_GB, Constants.EGRESS_TIER_1_MAX_GB);
+                    double tier2GB = GBInEgressTier(Constants.EGRESS_TIER_2_MIN_GB, Constants.EGRESS_TIER_2_MAX_GB);
+                    double tier3GB = GBInEgressTier(Constants.EGRESS_TIER_3_MIN_GB, Constants.EGRESS_TIER_3_MAX_GB);
+                    double tier4GB = GBInEgressTier(Constants.EGRESS_TIER_4_MIN_GB, Constants.EGRESS_TIER_4_MAX_GB);
+
+                    //Console.WriteLine("tier1GB: " + tier1GB);
+                    //Console.WriteLine("tier2GB: " + tier2GB);
+                    //Console.WriteLine("tier3GB: " + tier3GB);
+                    //Console.WriteLine("tier4GB: " + tier4GB);
+
+                    calculatedEgressPerMonth =
+                        tier1GB * Constants.EGRESS_TIER_1_RATE +
+                        tier2GB * Constants.EGRESS_TIER_2_RATE +
+                        tier3GB * Constants.EGRESS_TIER_3_RATE +
+                        tier4GB * Constants.EGRESS_TIER_4_RATE;
+                }
+            }
+            return calculatedEgressPerMonth * ((double) regionCount - 1);
+        }
+
+        private double GBInEgressTier(double tierMin, double tierMax)
+        {
+            double gb = 0;
+            double tierRange = tierMax - tierMin;
+
+            if (replicatedGBPerMonth > tierMin)
+            {
+                gb = replicatedGBPerMonth - tierMin;
+                if (gb > tierRange)
+                {
+                    gb = tierRange;
+                }
+            }
+            return gb;
         }
     }
 }

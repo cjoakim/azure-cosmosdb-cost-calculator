@@ -55,6 +55,7 @@ size_in_tb:                  Specify the storage quantity in terms of TB
 size_in_pb:                  Specify the storage quantity in terms of PB
 max_historical_manual_ru:    Optional
 max_historical_auto_ru:      Optional
+replicated_gb_per_month:     The number of GB replicated per month from one region
 calculate_costs:             boolean, triggers a Cost calculation if true
 ```
 
