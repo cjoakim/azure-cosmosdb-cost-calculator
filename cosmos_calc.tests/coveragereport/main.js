@@ -224,9 +224,9 @@ var assemblies = [
   {
     "name": "cosmos_calc",
     "classes": [
-      { "name": "CJoakim.CosmosCalc.Container", "rp": "cosmos_calc_Container.html", "cl": 189, "ucl": 0, "cal": 189, "tl": 292, "ct": "LineCoverage", "mc": "-", "cb": 50, "tb": 50, "lch": [], "bch": [], "hc": [] },
+      { "name": "CJoakim.CosmosCalc.Container", "rp": "cosmos_calc_Container.html", "cl": 196, "ucl": 0, "cal": 196, "tl": 300, "ct": "LineCoverage", "mc": "-", "cb": 52, "tb": 52, "lch": [], "bch": [], "hc": [] },
       { "name": "CJoakim.CosmosCalc.Program", "rp": "cosmos_calc_Program.html", "cl": 0, "ucl": 20, "cal": 20, "tl": 45, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 4, "lch": [], "bch": [], "hc": [] },
-      { "name": "CJoakim.CosmosCalc.SpecProcessor", "rp": "cosmos_calc_SpecProcessor.html", "cl": 70, "ucl": 0, "cal": 70, "tl": 118, "ct": "LineCoverage", "mc": "-", "cb": 84, "tb": 84, "lch": [], "bch": [], "hc": [] },
+      { "name": "CJoakim.CosmosCalc.SpecProcessor", "rp": "cosmos_calc_SpecProcessor.html", "cl": 79, "ucl": 0, "cal": 79, "tl": 128, "ct": "LineCoverage", "mc": "-", "cb": 94, "tb": 94, "lch": [], "bch": [], "hc": [] },
     ]},
 ];
 

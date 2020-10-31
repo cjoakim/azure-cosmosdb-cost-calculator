@@ -89,6 +89,16 @@ namespace CJoakim.CosmosCalc
                         case "replicated_gb_per_month":
                             currentContainer.replicatedGBPerMonth = (Double.Parse(value));
                             break;
+                        case "synapse_link_enabled":
+                            if (value == "true")
+                            {
+                                currentContainer.synapseLinkEnabled = true;
+                            }
+                            if (value == "false")
+                            {
+                                currentContainer.synapseLinkEnabled = false;
+                            }
+                            break;
 
                         // The above case statements 'set' the state of the container, while
                         // the following case statement is used to trigger calculations.

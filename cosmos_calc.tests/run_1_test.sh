@@ -6,4 +6,6 @@
 # dotnet test -t
 # dotnet test -t | grep Egress
 
-dotnet test --filter "FullyQualifiedName=cosmos_calc.tests.ContainerEgressTest.TestEgress"
+#dotnet test --filter "FullyQualifiedName=cosmos_calc.tests.ContainerEgressTest.TestEgress"
+
+dotnet test --filter "FullyQualifiedName=cosmos_calc.tests.SpecProcessorTest.Spec3MB_Autoscale_InMB_Test"

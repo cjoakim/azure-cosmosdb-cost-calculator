@@ -28,12 +28,13 @@ namespace CJoakim.CosmosCalc
         public  double sizeInGB { get; set; }
         public  string provisioningType { get; set; }
         public  bool   availabilityZone { get; set; }
+        public  bool   synapseLinkEnabled { get; set; }
         public  string replicationType  { get; set; }
         public  int    regionCount      { get; set; }
         public  int    ruPerSecond      { get; set; }
         public  int    maxHistoricalManualRu { get; set; }
         public  int    maxHistoricalAutoRu   { get; set; }
-        public double  replicatedGBPerMonth { get; set; }
+        public  double replicatedGBPerMonth { get; set; }
         
 
         // The above fields are set per the input text file,
@@ -45,6 +46,7 @@ namespace CJoakim.CosmosCalc
         public  double calculatedRuDollarsPerMonth { get; set; }
         public  double calculatedEgressPerMonth    { get; set; }
         public  double calculatedStoragePerMonth   { get; set; }
+        public  double calculatedAnalyticalStoragePerMonth { get; set; }
         public  double calculatedTotalPerMonth     { get; set; }
 
         public Container()
@@ -181,10 +183,16 @@ namespace CJoakim.CosmosCalc
 
             calculatedStoragePerMonth = (sizeInGB * 0.25) * ((double) regionCount);
 
+            if (synapseLinkEnabled)
+            {
+                calculatedAnalyticalStoragePerMonth = (sizeInGB * 0.02);
+            }
+
             calculatedTotalPerMonth =
                 calculatedRuDollarsPerMonth +
                 calculatedStoragePerMonth +
-                calculatedEgressPerMonth;
+                calculatedEgressPerMonth +
+                calculatedAnalyticalStoragePerMonth;
 
             return calculatedTotalPerMonth;
         }

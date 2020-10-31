@@ -68,6 +68,7 @@ recommendation: Read the README.md documentation
             Assert.True(c.calculatedRuDollarsPerMonth == 29.12);
             Assert.True(c.calculatedStoragePerMonth == 0.25);
             Assert.True(c.calculatedEgressPerMonth == 0.0);
+            Assert.True(c.calculatedAnalyticalStoragePerMonth == 0.0);
             Assert.True(c.calculatedTotalPerMonth == 29.37);
         }
 
@@ -83,6 +84,7 @@ max_historical_manual_ru:       1000
 max_historical_auto_ru:            0
 ru_per_second:                   500
 availability_zone:             false
+synapse_link_enabled:          false
 calculate_costs:                true
 ";
         }
@@ -206,7 +208,8 @@ calculate_costs:                true
             Assert.True(c.calculatedRuDollarsPerMonth == 2329.6);
             Assert.True(c.calculatedStoragePerMonth == 7.5);
             Assert.True(c.calculatedEgressPerMonth == 0.087);
-            Assert.True(c.calculatedTotalPerMonth == 2337.187);
+            Assert.True(c.calculatedAnalyticalStoragePerMonth == 0.3);
+            Assert.True(c.calculatedTotalPerMonth == 2337.487);
         }
 
         private string Spec3_Autoscale_InMB()
@@ -219,6 +222,7 @@ region_count:                      2
 size_in_mb:                    15360
 ru_per_second:                 20000
 replicated_gb_per_month:           6
+synapse_link_enabled:           true
 calculate_costs:                true
 ";
         }
