@@ -10,19 +10,6 @@ namespace CJoakim.CosmosCalc
 {
     public class Container
     {
-        // Constants:
-        public const string PROVISIONING_TYPE_STANDARD     = "standard";
-        public const string PROVISIONING_TYPE_AUTOSCALE    = "autoscale";
-        public const string PROVISIONING_TYPE_SERVERLESS   = "serverless";
-        public const string REPLICATION_TYPE_SINGLE_REGION = "single";
-        public const string REPLICATION_TYPE_MULTI_REGION  = "multi-region";
-        public const string REPLICATION_TYPE_MULTI_MASTER  = "multi-master";
-        public const int    ABSOLUTE_MIN_THROUGHPUT        = 400;
-
-        public const double WEEKS_PER_MONTH = 52.0 / 12.0;
-        public const double HOURS_PER_WEEK  = (24.0 * 7.0);
-        public const double HOURS_PER_MONTH = WEEKS_PER_MONTH * HOURS_PER_WEEK;
-
         // Instance variables:
         public  string name     { get; set; }
         public  double sizeInGB { get; set; }
@@ -36,9 +23,9 @@ namespace CJoakim.CosmosCalc
         public  int    maxHistoricalAutoRu   { get; set; }
         public  double replicatedGBPerMonth { get; set; }
         
-
         // The above fields are set per the input text file,
-        // while the following fields are calculated
+        // while the following fields are calculated.
+
         public  int    calculatedMinRU             { get; set; }
         public  double calculatedRatePer100RU      { get; set; }
         public  double calculatedRUInHundreds      { get; set; }
@@ -53,9 +40,9 @@ namespace CJoakim.CosmosCalc
         {
             this.name = null;
             this.sizeInGB = 0.0;
-            this.provisioningType = PROVISIONING_TYPE_STANDARD;
+            this.provisioningType = Constants.PROVISIONING_TYPE_STANDARD;
             this.availabilityZone = false;
-            this.replicationType  = REPLICATION_TYPE_SINGLE_REGION;
+            this.replicationType  = Constants.REPLICATION_TYPE_SINGLE_REGION;
             this.regionCount      = 1;
             this.ruPerSecond      = 0;
             this.calculatedMinRU  = -1;
@@ -67,10 +54,10 @@ namespace CJoakim.CosmosCalc
         {
             switch (type) {             
                 case "standard": 
-                    this.provisioningType = PROVISIONING_TYPE_STANDARD;
+                    this.provisioningType = Constants.PROVISIONING_TYPE_STANDARD;
                     break; 
                 case "autoscale": 
-                    this.provisioningType = PROVISIONING_TYPE_AUTOSCALE;
+                    this.provisioningType = Constants.PROVISIONING_TYPE_AUTOSCALE;
                     break; 
                 case "serverless": 
                     Console.WriteLine("ProvisioningType 'serverless' is not yet supported"); 
@@ -85,13 +72,13 @@ namespace CJoakim.CosmosCalc
         {
             switch (type) {             
                 case "single": 
-                    this.replicationType = REPLICATION_TYPE_SINGLE_REGION;
+                    this.replicationType = Constants.REPLICATION_TYPE_SINGLE_REGION;
                     break; 
                 case "multi-region": 
-                    this.replicationType = REPLICATION_TYPE_MULTI_REGION;
+                    this.replicationType = Constants.REPLICATION_TYPE_MULTI_REGION;
                     break; 
                 case "multi-master": 
-                    this.replicationType = REPLICATION_TYPE_MULTI_MASTER;
+                    this.replicationType = Constants.REPLICATION_TYPE_MULTI_MASTER;
                     break; 
                 default: 
                     Console.WriteLine("Unknown value in SetReplicationType: " + type); 
@@ -121,7 +108,7 @@ namespace CJoakim.CosmosCalc
 
         public int CalculateMinRU()
         {
-            int min1 = ABSOLUTE_MIN_THROUGHPUT;
+            int min1 = Constants.ABSOLUTE_MIN_THROUGHPUT;
             int min2 = MinRuBasedOnGB();
             int min3 = MinRuBasedOnManualProvisioning();
             int min4 = MinRuBasedOnAutoProvisioning();
@@ -179,13 +166,13 @@ namespace CJoakim.CosmosCalc
                 calculatedRUInHundreds * calculatedRatePer100RU;
 
             calculatedRuDollarsPerMonth = 
-                calculatedRuDollarsPerHour * HOURS_PER_MONTH;
+                calculatedRuDollarsPerHour * Constants.HOURS_PER_MONTH;
 
-            calculatedStoragePerMonth = (sizeInGB * 0.25) * ((double) regionCount);
+            calculatedStoragePerMonth = (sizeInGB * Constants.STORAGE_COSTS_PER_GB_PER_MONTH) * ((double) regionCount);
 
             if (synapseLinkEnabled)
             {
-                calculatedAnalyticalStoragePerMonth = (sizeInGB * 0.02);
+                calculatedAnalyticalStoragePerMonth = (sizeInGB * Constants.ANALYTICAL_STORAGE_COSTS_PER_GB_PER_MONTH);
             }
 
             calculatedTotalPerMonth =
@@ -199,55 +186,57 @@ namespace CJoakim.CosmosCalc
 
         public double CalculateHourlyRatePer100RU() 
         {
-            calculatedRatePer100RU = 0.008;
+            calculatedRatePer100RU = Constants.HOURLY_RATE_PER_100_RU_STANDARD_SINGLE_REGION;
 
-            if (provisioningType == PROVISIONING_TYPE_AUTOSCALE)
+            if (provisioningType == Constants.PROVISIONING_TYPE_AUTOSCALE)
             {
-                if (replicationType == REPLICATION_TYPE_SINGLE_REGION)
+                if (replicationType == Constants.REPLICATION_TYPE_SINGLE_REGION)
                 {
-                    calculatedRatePer100RU = (double) 0.012;
+                    calculatedRatePer100RU = Constants.HOURLY_RATE_PER_100_RU_AUTOSCALE_SINGLE_REGION;
                     if (availabilityZone)
                     {
-                        calculatedRatePer100RU = (double) calculatedRatePer100RU * 1.25;
+                        calculatedRatePer100RU =
+                            (double) calculatedRatePer100RU * Constants.AVAILABILITY_ZONE_MULTIPLIER;
                     }
                 }
 
-                if (replicationType == REPLICATION_TYPE_MULTI_REGION)
+                if (replicationType == Constants.REPLICATION_TYPE_MULTI_REGION)
                 {
-                    calculatedRatePer100RU = 0.012;
+                    calculatedRatePer100RU = Constants.HOURLY_RATE_PER_100_RU_AUTOSCALE_MULTI_REGION;
                 }
 
-                if (replicationType == REPLICATION_TYPE_MULTI_MASTER)
+                if (replicationType == Constants.REPLICATION_TYPE_MULTI_MASTER)
                 {
-                    calculatedRatePer100RU = 0.016;
+                    calculatedRatePer100RU = Constants.HOURLY_RATE_PER_100_RU_AUTOSCALE_MULTI_MASTER;
                 }
             }
 
-            if (provisioningType == PROVISIONING_TYPE_STANDARD)
+            if (provisioningType == Constants.PROVISIONING_TYPE_STANDARD)
             {
-                if (replicationType == REPLICATION_TYPE_SINGLE_REGION)
+                if (replicationType == Constants.REPLICATION_TYPE_SINGLE_REGION)
                 {
-                    calculatedRatePer100RU = 0.008 ;
+                    calculatedRatePer100RU = Constants.HOURLY_RATE_PER_100_RU_STANDARD_SINGLE_REGION;
                     if (availabilityZone)
                     {
-                        calculatedRatePer100RU = calculatedRatePer100RU * 1.25;
+                        calculatedRatePer100RU =
+                            calculatedRatePer100RU * Constants.AVAILABILITY_ZONE_MULTIPLIER;
                     }
                 }
 
-                if (replicationType == REPLICATION_TYPE_MULTI_REGION)
+                if (replicationType == Constants.REPLICATION_TYPE_MULTI_REGION)
                 {
-                    calculatedRatePer100RU = 0.012;
+                    calculatedRatePer100RU = Constants.HOURLY_RATE_PER_100_RU_STANDARD_MULTI_REGION;
                 }
 
-                if (replicationType == REPLICATION_TYPE_MULTI_MASTER)
+                if (replicationType == Constants.REPLICATION_TYPE_MULTI_MASTER)
                 {
-                    calculatedRatePer100RU = 0.016;
+                    calculatedRatePer100RU = Constants.HOURLY_RATE_PER_100_RU_STANDARD_MULTI_MASTER;
                 }
             }
 
-            if (provisioningType == PROVISIONING_TYPE_SERVERLESS)
+            if (provisioningType == Constants.PROVISIONING_TYPE_SERVERLESS)
             {
-                throw new Exception("provisioningType " + PROVISIONING_TYPE_SERVERLESS + " is not yet supported by this calculator");
+                throw new Exception("provisioningType " + Constants.PROVISIONING_TYPE_SERVERLESS + " is not yet supported by this calculator");
             }
 
             return calculatedRatePer100RU;
