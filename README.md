@@ -237,10 +237,20 @@ $ cd cosmos_calc.tests/
 $ dotnet test
 ...
 Test Run Successful.
-Total tests: 54
-     Passed: 54
- Total time: 1.9399 Seconds
+Total tests: 67
+     Passed: 67
+ Total time: 1.5796 Seconds
 ```
+
+### Executing the unit tests outside of Visual Studio, with Coverage
+
+On linux, macOS, or Windows 10 with WSL:
+
+```
+$ ./run_tests.sh
+```
+
+Then open file coveragereport/index.html in your browser.
 
 ---
 
