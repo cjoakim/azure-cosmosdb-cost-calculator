@@ -254,6 +254,23 @@ Then open file coveragereport/index.html in your browser.
 
 ---
 
+## Change Log
+
+### What's New
+
+- Synapse Link Storage Costs
+- Cross-region Egress Costs
+- Magic numbers (hourly rates, egress tiers, storage costs, etc.) extracted to class Constants
+- Code Coverage in the Unit Tests - 100% coverage of classes Container and SpecProcessor
+
+### TODO 
+
+- Enhance the unit tests with more "real-world use-cases"
+- Add support for Serverless
+
+---
+
+
 ## CosmosDB Cost Links
 
 - https://cosmos.azure.com/capacitycalculator/
