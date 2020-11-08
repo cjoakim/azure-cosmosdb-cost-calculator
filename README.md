@@ -237,9 +237,9 @@ $ cd cosmos_calc.tests/
 $ dotnet test
 ...
 Test Run Successful.
-Total tests: 67
-     Passed: 67
- Total time: 1.5796 Seconds
+Total tests: 97
+     Passed: 97
+ Total time: 1.1151 Seconds
 ```
 
 ### Executing the unit tests outside of Visual Studio, with Coverage
@@ -303,6 +303,21 @@ shown in the table below.
 | autoscale | multi-master | 3 | noazone | 3 | 28-autoscale-multi-master-3-noazone-3gb.txt |
 | autoscale | multi-master | 3 | noazone | 300 | 29-autoscale-multi-master-3-noazone-300gb.txt |
 | autoscale | multi-master | 3 | noazone | 30000 | 30-autoscale-multi-master-3-noazone-30000gb.txt |
+
+### Executing the Spec Matrix
+
+```
+$ cd cosmos_calc
+$ mkdir out
+
+$ dotnet build
+
+$ dotnet run spec_matrix/28-autoscale-multi-master-3-noazone-3gb.txt   <-- run one of the specs
+
+$ ./execute_spec_matrix.sh     <-- executes all 30 specs in the matrix, see the spec_matrix/out directory
+```
+
+cosmos_calc/spec_matrix
 
 ### Generator Code
 
