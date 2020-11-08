@@ -260,7 +260,7 @@ Then open file coveragereport/index.html in your browser.
 Bash script **execute_spec_matrix.sh** executes the **matrix** of combinations
 shown below.
 
-| Provisioning | Replication | Regions | Av-Zone | DB Size in GB | Spec File |
+| Prov | Repl | RC | AvZ | DB Size | Spec File |
 | ------------ | ----------- | ------- | ------- | ------------- | --------- |
 | standard | single | 1 | azone | 3 | spec_matrix/1-standard-single-1-azone-3gb.txt |
 | standard | single | 1 | azone | 300 | spec_matrix/2-standard-single-1-azone-300gb.txt |
