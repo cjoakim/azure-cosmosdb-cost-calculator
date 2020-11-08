@@ -57,8 +57,8 @@ def generate_matrix_specs():
     script_lines.append('# Chris Joakim, Microsoft, {}'.format(current_date()))
     script_lines.append('')
 
-    markdown_lines.append('| Provisioning | Replication | Regions | Av-Zone | DB Size in GB |')
-    markdown_lines.append('| ------------ | ----------- | ------- | ------- | ------------- |')
+    markdown_lines.append('| Provisioning | Replication | Regions | Av-Zone | DB Size in GB | Spec File |')
+    markdown_lines.append('| ------------ | ----------- | ------- | ------- | ------------- | --------- |')
 
     for pt in provisioning_types():
         for rt in replication_types():
@@ -76,7 +76,7 @@ def generate_matrix_specs():
                         content = "\n".join(specification_lines(seq, pt, rt, rc, az, gb))
                         write_file(specfile, content)
                         script_lines.append('dotnet run {} > {}'.format(specfile, resultfile))
-                        markdown_lines.append('| {} | {} | {} | {} | {} |'.format(pt, rt, rc, az, gb))
+                        markdown_lines.append('| {} | {} | {} | {} | {} | {} |'.format(pt, rt, rc, az, gb, specfile))
 
     script_lines.append('')
     write_file('execute_spec_matrix.sh', "\n".join(script_lines))
