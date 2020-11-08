@@ -252,6 +252,44 @@ $ ./run_tests.sh
 
 Then open file coveragereport/index.html in your browser.
 
+
+---
+
+## Test Specification Matrix
+
+| Provisioning | Replication | Regions | Av-Zone | DB Size in GB |
+| ------------ | ----------- | ------- | ------- | ------------- |
+| standard | single | 1 | azone | 3 |
+| standard | single | 1 | azone | 300 |
+| standard | single | 1 | azone | 30000 |
+| standard | single | 1 | noazone | 3 |
+| standard | single | 1 | noazone | 300 |
+| standard | single | 1 | noazone | 30000 |
+| standard | multi-region | 3 | noazone | 3 |
+| standard | multi-region | 3 | noazone | 300 |
+| standard | multi-region | 3 | noazone | 30000 |
+| standard | multi-master | 3 | azone | 3 |
+| standard | multi-master | 3 | azone | 300 |
+| standard | multi-master | 3 | azone | 30000 |
+| standard | multi-master | 3 | noazone | 3 |
+| standard | multi-master | 3 | noazone | 300 |
+| standard | multi-master | 3 | noazone | 30000 |
+| autoscale | single | 1 | azone | 3 |
+| autoscale | single | 1 | azone | 300 |
+| autoscale | single | 1 | azone | 30000 |
+| autoscale | single | 1 | noazone | 3 |
+| autoscale | single | 1 | noazone | 300 |
+| autoscale | single | 1 | noazone | 30000 |
+| autoscale | multi-region | 3 | noazone | 3 |
+| autoscale | multi-region | 3 | noazone | 300 |
+| autoscale | multi-region | 3 | noazone | 30000 |
+| autoscale | multi-master | 3 | azone | 3 |
+| autoscale | multi-master | 3 | azone | 300 |
+| autoscale | multi-master | 3 | azone | 30000 |
+| autoscale | multi-master | 3 | noazone | 3 |
+| autoscale | multi-master | 3 | noazone | 300 |
+| autoscale | multi-master | 3 | noazone | 30000 |
+
 ---
 
 ## Change Log

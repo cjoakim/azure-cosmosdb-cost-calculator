@@ -1,8 +1,7 @@
 """
 Usage:
   python main.py <func>
-  python main.py generate_scenarios
-  python main.py generate_execution_scripts
+  python main.py generate_matrix_specs
   python main.py generate_unit_tests
 Options:
   -h --help     Show this screen.
@@ -49,14 +48,17 @@ def region_count(replication_type):
     else:
         return 1
 
-def generate_scenarios():
-    seq, rc, script_lines = 0, 0, list()
+def generate_matrix_specs():
+    seq, rc, script_lines, markdown_lines = 0, 0, list(), list()
 
     script_lines.append('#!/bin/bash')
     script_lines.append('')
     script_lines.append('# Execute the generated matrix of specifications.')
     script_lines.append('# Chris Joakim, Microsoft, {}'.format(current_date()))
     script_lines.append('')
+
+    markdown_lines.append('| Provisioning | Replication | Regions | Av-Zone | DB Size in GB |')
+    markdown_lines.append('| ------------ | ----------- | ------- | ------- | ------------- |')
 
     for pt in provisioning_types():
         for rt in replication_types():
@@ -74,9 +76,11 @@ def generate_scenarios():
                         content = "\n".join(specification_lines(seq, pt, rt, rc, az, gb))
                         write_file(specfile, content)
                         script_lines.append('dotnet run {} > {}'.format(specfile, resultfile))
+                        markdown_lines.append('| {} | {} | {} | {} | {} |'.format(pt, rt, rc, az, gb))
 
     script_lines.append('')
     write_file('execute_spec_matrix.sh', "\n".join(script_lines))
+    write_file('spec_matrix.md', "\n".join(markdown_lines))
 
 def specification_lines(seq, pt, rt, rc, az, gb):
     az_bool = 'false'
@@ -101,9 +105,6 @@ def specification_lines(seq, pt, rt, rc, az, gb):
     lines.append('calculate_costs:         {}'.format('true'))
     lines.append('')
     return lines
-
-def generate_execution_scripts():
-    print('generate_execution_scripts')
 
 def generate_unit_tests():
     print('generate_unit_tests')
@@ -136,10 +137,8 @@ if __name__ == "__main__":
 
     if len(sys.argv) > 1:
         func = sys.argv[1].lower()
-        if func == 'generate_scenarios':
-            generate_scenarios()
-        elif func == 'generate_execution_scripts':
-            generate_execution_scripts()
+        if func == 'generate_matrix_specs':
+            generate_matrix_specs()
         elif func == 'generate_unit_tests':
             generate_unit_tests()
         else:
