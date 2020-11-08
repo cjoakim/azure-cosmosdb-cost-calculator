@@ -12,15 +12,15 @@ using CJoakim.CosmosCalc;
 
 namespace cosmos_calc.tests
 {
-    public class SpecMatrix30Test
+    public class SpecMatrix9Test
     {
         [Fact]
-        public void TestSpecMatrix30Test()
+        public void TestSpecMatrix9Test()
         {
             Container c = new Container();
-            c.name                  = "container30";
-            c.provisioningType      = "autoscale";
-            c.replicationType       = "multi-master";
+            c.name                  = "container9";
+            c.provisioningType      = "standard";
+            c.replicationType       = "multi-region";
             c.availabilityZone      = false;
             c.regionCount           = 3;
             c.sizeInGB              = 30000;
@@ -31,14 +31,14 @@ namespace cosmos_calc.tests
             c.maxHistoricalAutoRu   = 0;
 
             int    expectedCalculatedMinRU             = 300000;
-            double expectedCalculatedRatePer100RU      = 0.016;
+            double expectedCalculatedRatePer100RU      = 0.012;
             double expectedCalculatedRUInHundreds      = 3000;
-            double expectedCalculatedRuDollarsPerHour  = 48;
-            double expectedCalculatedRuDollarsPerMonth = 34944;
+            double expectedCalculatedRuDollarsPerHour  = 36;
+            double expectedCalculatedRuDollarsPerMonth = 26208;
             double expectedCalculatedEgressPerMonth    = 153.255;
             double expectedCalculatedStoragePerMonth   = 22500;
             double expectedCalculatedAnalyticalStoragePerMonth = 600;
-            double expectedCalculatedTotalPerMonth     = 58197.255;
+            double expectedCalculatedTotalPerMonth     = 49461.255;
 
             double costs = c.CalculateCosts();
             double tolerance = 0.01;
@@ -87,9 +87,9 @@ namespace cosmos_calc.tests
 /*
 Azure CosmosDB Cost Calculator Specification File
 
-container:               container30
-provisioning_type:       autoscale
-replication_type:        multi-master
+container:               container9
+provisioning_type:       standard
+replication_type:        multi-region
 region_count:            3
 availability_zone:       false
 size_in_gb:              30000
@@ -102,25 +102,25 @@ calculate_costs:         true
 
 /*
 {
-  "name": "container30",
+  "name": "container9",
   "sizeInGB": 30000,
-  "provisioningType": "autoscale",
+  "provisioningType": "standard",
   "availabilityZone": false,
   "synapseLinkEnabled": true,
-  "replicationType": "multi-master",
+  "replicationType": "multi-region",
   "regionCount": 3,
   "ruPerSecond": 300000,
   "maxHistoricalManualRu": 0,
   "maxHistoricalAutoRu": 0,
   "replicatedGBPerMonth": 3000,
   "calculatedMinRU": 300000,
-  "calculatedRatePer100RU": 0.016,
+  "calculatedRatePer100RU": 0.012,
   "calculatedRUInHundreds": 3000,
-  "calculatedRuDollarsPerHour": 48,
-  "calculatedRuDollarsPerMonth": 34944,
+  "calculatedRuDollarsPerHour": 36,
+  "calculatedRuDollarsPerMonth": 26208,
   "calculatedEgressPerMonth": 153.255,
   "calculatedStoragePerMonth": 22500,
   "calculatedAnalyticalStoragePerMonth": 600,
-  "calculatedTotalPerMonth": 58197.255
+  "calculatedTotalPerMonth": 49461.255
 }
 */

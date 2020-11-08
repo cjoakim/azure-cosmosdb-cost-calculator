@@ -53,6 +53,7 @@ def generate_matrix_specs():
     repo_home = calculator_home_dir()
     spec_dir  = '{}/cosmos_calc/spec_matrix'.format(repo_home)
     exec_script = '{}/cosmos_calc/execute_spec_matrix.sh'.format(repo_home)
+    md_tablefile = '{}/spec_matrix.md'.format(repo_home)
 
     script_lines.append('#!/bin/bash')
     script_lines.append('')
@@ -86,18 +87,9 @@ def generate_matrix_specs():
 
     script_lines.append('')
     write_file(exec_script, "\n".join(script_lines))
-    #write_file('spec_matrix.md', "\n".join(markdown_lines))
-    print("\n".join(markdown_lines))
+    write_file(md_tablefile, "\n".join(markdown_lines))
 
 def specification_lines(seq, pt, rt, rc, az, gb):
-    az_bool = 'false'
-    if az == 'azone':
-        az_bool = 'true'
-    if rc < 2:
-        repl_gb = 0.0
-    else:
-        repl_gb = float(gb) / 10.0
-
     lines = list()
     lines.append('Azure CosmosDB Cost Calculator Specification File')
     lines.append('')
@@ -105,14 +97,20 @@ def specification_lines(seq, pt, rt, rc, az, gb):
     lines.append('provisioning_type:       {}'.format(pt))
     lines.append('replication_type:        {}'.format(rt))
     lines.append('region_count:            {}'.format(rc))
-    lines.append('availability_zone:       {}'.format(az_bool))
+    lines.append('availability_zone:       {}'.format(availability_zone_boolean(az)))
     lines.append('size_in_gb:              {}'.format(gb))
-    lines.append('replicated_gb_per_month: {}'.format(repl_gb))
+    lines.append('replicated_gb_per_month: {}'.format(replicated_gb(rc, gb)))
     lines.append('ru_per_second:           {}'.format(ru_for_spec(gb)))
     lines.append('synapse_link_enabled:    {}'.format('true'))
     lines.append('calculate_costs:         {}'.format('true'))
     lines.append('')
     return lines
+
+def replicated_gb(rc, gb):
+    if rc < 2:
+        return 0.0
+    else:
+       return float(gb) / 10.0
 
 def ru_for_spec(gb):
     ru = int(gb) * 10
@@ -121,8 +119,14 @@ def ru_for_spec(gb):
     else:
         return ru
 
+def availability_zone_boolean(s):
+    if s == 'azone':
+        return 'true'
+    else:
+        return 'false'
+
 def generate_unit_tests():
-    print('generate_unit_tests')
+    print('generate_unit_tests from known accurate test results ...')
     seq = 0
     repo_home = calculator_home_dir()
     spec_dir  = '{}/cosmos_calc/spec_matrix'.format(repo_home)
@@ -144,14 +148,10 @@ def generate_unit_tests():
                         resultfile = '{}/out/{}-{}-{}-{}-{}-{}gb.json'.format(spec_dir, seq, pt, rt, rc, az, gb)
                         classname  = 'SpecMatrix{}Test'.format(seq)
                         xunitfile  = '{}/{}.cs'.format(xunit_dir, classname, seq)
-                        generate_unit_test(seq, pt, rt, rc, az, gb, specfile, resultfile, classname, xunitfile)   
+                        xunitcode  = generate_unit_test(seq, pt, rt, rc, az, gb, specfile, resultfile, classname, xunitfile)   
+                        write_file(xunitfile, xunitcode)
 
 def generate_unit_test(seq, pt, rt, rc, az, gb, specfile, resultfile, classname, xunitfile):
-    print('generate_unit_test')
-    print('  specfile:   {}'.format(specfile))
-    print('  resultfile: {}'.format(resultfile))                
-    print('  xunitfile:  {}'.format(xunitfile)) 
-
     speclines = read_lines(specfile)
     resultobj = read_json(resultfile)
 
@@ -162,20 +162,17 @@ def generate_unit_test(seq, pt, rt, rc, az, gb, specfile, resultfile, classname,
     values['pt'] = pt
     values['rt'] = rt
     values['rc'] = rc
-    if az == 'azone':
-        values['azbool'] = 'true'
-    else:
-        values['azbool'] = 'false'
+    values['azbool'] = availability_zone_boolean(az)
     values['gb'] = gb
-    values['ru'] = 333
+    values['repl_gb'] = replicated_gb(rc, gb)
 
     for key in resultobj.keys():
         values[key] = resultobj[key]
     values['spec'] = "".join(speclines)
-    values['calc'] = json.dumps(resultobj, sort_keys=False, indent=2) 
+    values['resultobj'] = resultobj
+    values['calcjson'] = json.dumps(resultobj, sort_keys=False, indent=2) 
     t = get_template('XunitTest.txt')
-    code = t.render(values)
-    print(code)
+    return t.render(values)
 
 def current_date():
     utc = arrow.utcnow()
@@ -210,7 +207,6 @@ def get_template(tname):
     return get_jinja2_env(templates_dir).get_template(tname)
 
 def get_jinja2_env(templates_dir):
-    print('get_jinja2_env root_dir: {}'.format(templates_dir))
     return jinja2.Environment(
         loader = jinja2.FileSystemLoader(
             templates_dir), autoescape=True)

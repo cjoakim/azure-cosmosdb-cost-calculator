@@ -12,33 +12,33 @@ using CJoakim.CosmosCalc;
 
 namespace cosmos_calc.tests
 {
-    public class SpecMatrix30Test
+    public class SpecMatrix25Test
     {
         [Fact]
-        public void TestSpecMatrix30Test()
+        public void TestSpecMatrix25Test()
         {
             Container c = new Container();
-            c.name                  = "container30";
+            c.name                  = "container25";
             c.provisioningType      = "autoscale";
             c.replicationType       = "multi-master";
-            c.availabilityZone      = false;
+            c.availabilityZone      = true;
             c.regionCount           = 3;
-            c.sizeInGB              = 30000;
-            c.replicatedGBPerMonth  = 3000.0;
-            c.ruPerSecond           = 300000;
+            c.sizeInGB              = 3;
+            c.replicatedGBPerMonth  = 0.3;
+            c.ruPerSecond           = 400;
             c.synapseLinkEnabled    = true;
             c.maxHistoricalManualRu = 0;
             c.maxHistoricalAutoRu   = 0;
 
-            int    expectedCalculatedMinRU             = 300000;
+            int    expectedCalculatedMinRU             = 400;
             double expectedCalculatedRatePer100RU      = 0.016;
-            double expectedCalculatedRUInHundreds      = 3000;
-            double expectedCalculatedRuDollarsPerHour  = 48;
-            double expectedCalculatedRuDollarsPerMonth = 34944;
-            double expectedCalculatedEgressPerMonth    = 153.255;
-            double expectedCalculatedStoragePerMonth   = 22500;
-            double expectedCalculatedAnalyticalStoragePerMonth = 600;
-            double expectedCalculatedTotalPerMonth     = 58197.255;
+            double expectedCalculatedRUInHundreds      = 4;
+            double expectedCalculatedRuDollarsPerHour  = 0.064;
+            double expectedCalculatedRuDollarsPerMonth = 46.592;
+            double expectedCalculatedEgressPerMonth    = 0;
+            double expectedCalculatedStoragePerMonth   = 2.25;
+            double expectedCalculatedAnalyticalStoragePerMonth = 0.06;
+            double expectedCalculatedTotalPerMonth     = 48.902;
 
             double costs = c.CalculateCosts();
             double tolerance = 0.01;
@@ -87,14 +87,14 @@ namespace cosmos_calc.tests
 /*
 Azure CosmosDB Cost Calculator Specification File
 
-container:               container30
+container:               container25
 provisioning_type:       autoscale
 replication_type:        multi-master
 region_count:            3
-availability_zone:       false
-size_in_gb:              30000
-replicated_gb_per_month: 3000.0
-ru_per_second:           300000
+availability_zone:       true
+size_in_gb:              3
+replicated_gb_per_month: 0.3
+ru_per_second:           400
 synapse_link_enabled:    true
 calculate_costs:         true
 
@@ -102,25 +102,25 @@ calculate_costs:         true
 
 /*
 {
-  "name": "container30",
-  "sizeInGB": 30000,
+  "name": "container25",
+  "sizeInGB": 3,
   "provisioningType": "autoscale",
-  "availabilityZone": false,
+  "availabilityZone": true,
   "synapseLinkEnabled": true,
   "replicationType": "multi-master",
   "regionCount": 3,
-  "ruPerSecond": 300000,
+  "ruPerSecond": 400,
   "maxHistoricalManualRu": 0,
   "maxHistoricalAutoRu": 0,
-  "replicatedGBPerMonth": 3000,
-  "calculatedMinRU": 300000,
+  "replicatedGBPerMonth": 0.3,
+  "calculatedMinRU": 400,
   "calculatedRatePer100RU": 0.016,
-  "calculatedRUInHundreds": 3000,
-  "calculatedRuDollarsPerHour": 48,
-  "calculatedRuDollarsPerMonth": 34944,
-  "calculatedEgressPerMonth": 153.255,
-  "calculatedStoragePerMonth": 22500,
-  "calculatedAnalyticalStoragePerMonth": 600,
-  "calculatedTotalPerMonth": 58197.255
+  "calculatedRUInHundreds": 4,
+  "calculatedRuDollarsPerHour": 0.064,
+  "calculatedRuDollarsPerMonth": 46.592,
+  "calculatedEgressPerMonth": 0,
+  "calculatedStoragePerMonth": 2.25,
+  "calculatedAnalyticalStoragePerMonth": 0.06,
+  "calculatedTotalPerMonth": 48.902
 }
 */

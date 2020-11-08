@@ -5,7 +5,6 @@ cosmos_calc.tests/TestResults/
 cosmos_calc.tests/test.out
 cosmos_calc.tests/test_cobertura_filename.txt
 
-spec_generator/spec_matrix/
 spec_generator/spec_matrix.md
 
 ## Ignore Visual Studio temporary files, build results, and

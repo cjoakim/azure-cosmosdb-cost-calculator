@@ -12,16 +12,16 @@ using CJoakim.CosmosCalc;
 
 namespace cosmos_calc.tests
 {
-    public class SpecMatrix30Test
+    public class SpecMatrix12Test
     {
         [Fact]
-        public void TestSpecMatrix30Test()
+        public void TestSpecMatrix12Test()
         {
             Container c = new Container();
-            c.name                  = "container30";
-            c.provisioningType      = "autoscale";
+            c.name                  = "container12";
+            c.provisioningType      = "standard";
             c.replicationType       = "multi-master";
-            c.availabilityZone      = false;
+            c.availabilityZone      = true;
             c.regionCount           = 3;
             c.sizeInGB              = 30000;
             c.replicatedGBPerMonth  = 3000.0;
@@ -87,11 +87,11 @@ namespace cosmos_calc.tests
 /*
 Azure CosmosDB Cost Calculator Specification File
 
-container:               container30
-provisioning_type:       autoscale
+container:               container12
+provisioning_type:       standard
 replication_type:        multi-master
 region_count:            3
-availability_zone:       false
+availability_zone:       true
 size_in_gb:              30000
 replicated_gb_per_month: 3000.0
 ru_per_second:           300000
@@ -102,10 +102,10 @@ calculate_costs:         true
 
 /*
 {
-  "name": "container30",
+  "name": "container12",
   "sizeInGB": 30000,
-  "provisioningType": "autoscale",
-  "availabilityZone": false,
+  "provisioningType": "standard",
+  "availabilityZone": true,
   "synapseLinkEnabled": true,
   "replicationType": "multi-master",
   "regionCount": 3,
