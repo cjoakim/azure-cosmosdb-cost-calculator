@@ -260,6 +260,17 @@ Then open file coveragereport/index.html in your browser.
 Bash script **execute_spec_matrix.sh** executes the **matrix** of combinations
 shown below.
 
+### Key
+
+- Prov = Provisioning Type
+- Repl = Replication Type
+- RC = Region Count
+- AvZ = Availability Zone
+- DB GB = Size of the database contents in Gigabytes
+- Spec File = the cost calculator specification file in directory spec_matrix/.
+
+### Table
+
 | Prov | Repl | RC | AvZ | DB GB | Spec File |
 | ---- | ---- | -- | --- | ----- | --------- |
 | standard | single | 1 | azone | 3 | 1-standard-single-1-azone-3gb.txt |
@@ -294,7 +305,7 @@ shown below.
 | autoscale | multi-master | 3 | noazone | 30000 | 30-autoscale-multi-master-3-noazone-30000gb.txt |
 
 Note: The python code in directory **spec_generator** was used to generate
-these spec files and corresponding Xunit files.
+these spec files and corresponding C# Xunit files.
 
 ---
 
@@ -302,6 +313,7 @@ these spec files and corresponding Xunit files.
 
 ### What's New
 
+- Text Specification Matrix for use-case and code coverage
 - Synapse Link Storage Costs
 - Cross-region Egress Costs
 - Magic numbers (hourly rates, egress tiers, storage costs, etc.) extracted to class Constants
@@ -309,11 +321,9 @@ these spec files and corresponding Xunit files.
 
 ### TODO 
 
-- Enhance the unit tests with more "real-world use-cases"
-- Add support for Serverless
+- Add support for Serverless, currently in preview
 
 ---
-
 
 ## CosmosDB Cost Links
 
