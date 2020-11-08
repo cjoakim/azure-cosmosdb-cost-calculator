@@ -14,9 +14,9 @@ __license__ = "MIT"
 __version__ = "2020.11.08"
 
 import json
+import os
 import sys
 import time
-import os
 
 import arrow
 import jinja2
@@ -109,8 +109,59 @@ def specification_lines(seq, pt, rt, rc, az, gb):
 
 def generate_unit_tests():
     print('generate_unit_tests')
-    home = calculator_home_dir()
-    print(home)
+    seq = 0
+    repo_home = calculator_home_dir()
+    spec_dir  = '{}/cosmos_calc/spec_matrix'.format(repo_home)
+    xunit_dir = '{}/cosmos_calc.tests'.format(repo_home)
+
+    for pt in provisioning_types():
+        for rt in replication_types():
+            rc = region_count(rt)
+            for az in availability_zone_types():
+                for gb in database_gb_sizes():
+                    valid_combo = True
+                    if (rt == 'multi-region') and (az == 'azone'):
+                        # see https://docs.microsoft.com/en-us/azure/cosmos-db/high-availability#availability-zone-support
+                        valid_combo = False 
+                    if valid_combo:
+                        seq = seq + 1
+                        specbase   = '{}-{}-{}-{}-{}-{}gb.txt'.format(seq, pt, rt, rc, az, gb)
+                        specfile   = '{}/{}'.format(spec_dir, specbase)
+                        resultfile = '{}/out/{}-{}-{}-{}-{}-{}gb.json'.format(spec_dir, seq, pt, rt, rc, az, gb)
+                        classname  = 'SpecMatrix{}Test'.format(seq)
+                        xunitfile  = '{}/{}.cs'.format(xunit_dir, classname, seq)
+                        generate_unit_test(seq, pt, rt, rc, az, gb, specfile, resultfile, classname, xunitfile)   
+
+def generate_unit_test(seq, pt, rt, rc, az, gb, specfile, resultfile, classname, xunitfile):
+    print('generate_unit_test')
+    print('  specfile:   {}'.format(specfile))
+    print('  resultfile: {}'.format(resultfile))                
+    print('  xunitfile:  {}'.format(xunitfile)) 
+
+    speclines = read_lines(specfile)
+    resultobj = read_json(resultfile)
+
+    values = dict()
+    values['date'] = current_date()
+    values['classname'] = classname
+    values['seq'] = seq
+    values['pt'] = pt
+    values['rt'] = rt
+    values['rc'] = rc
+    if az == 'azone':
+        values['azbool'] = 'true'
+    else:
+        values['azbool'] = 'false'
+    values['gb'] = gb
+    values['ru'] = 333
+
+    for key in resultobj.keys():
+        values[key] = resultobj[key]
+    values['spec'] = "".join(speclines)
+    values['calc'] = json.dumps(resultobj, sort_keys=False, indent=2) 
+    t = get_template('XunitTest.txt')
+    code = t.render(values)
+    print(code)
 
 def current_date():
     utc = arrow.utcnow()
@@ -118,6 +169,17 @@ def current_date():
 
 def calculator_home_dir():
     return os.environ['AZURE_COSMOSDB_COST_CALCULATOR_HOME']
+
+def read_lines(infile):
+    lines = list()
+    with open(infile, 'rt') as f:
+        for line in f:
+            lines.append(line)
+    return lines
+
+def read_json(infile):
+    with open(infile, 'rt') as f:
+        return json.loads(f.read())
 
 def write_file(outfile, s, verbose=True):
     with open(outfile, 'w') as f:
@@ -128,15 +190,16 @@ def write_file(outfile, s, verbose=True):
 def render(template, values):
     return template.render(values)
 
-def get_template(root_dir, name):
-    filename = 'templates/{}'.format(name)
-    return cls.get_jinja2_env(root_dir).get_template(filename)
+def get_template(tname):
+    repo_home = calculator_home_dir()
+    templates_dir = '{}/spec_generator/templates'.format(repo_home)
+    return get_jinja2_env(templates_dir).get_template(tname)
 
-def get_jinja2_env(root_dir):
-    print('get_jinja2_env root_dir: {}'.format(root_dir))
+def get_jinja2_env(templates_dir):
+    print('get_jinja2_env root_dir: {}'.format(templates_dir))
     return jinja2.Environment(
         loader = jinja2.FileSystemLoader(
-            root_dir), autoescape=True)
+            templates_dir), autoescape=True)
 
 
 if __name__ == "__main__":

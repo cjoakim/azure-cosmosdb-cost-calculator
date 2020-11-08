@@ -1,0 +1,53 @@
+using System;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+using Xunit;
+
+using CJoakim.CosmosCalc;
+
+// Xunit unit tests for a Specification Matrix Scenario.
+// Chris Joakim, Microsoft, {{ date }}
+
+namespace cosmos_calc.tests
+{
+    public class {{ classname }}
+    {
+        [Fact]
+        public void Test{{ classname }}()
+        {
+            Container c = new Container();
+            c.name             = "{{ cname }}";
+            c.provisioningType = "{{ pt }}";
+            c.replicationType  = "{{ rt }}";
+            c.availabilityZone = {{azbool}};
+            c.regionCount      = {{rc}};
+            c.sizeInGB         = {{gb}};
+            c.ruPerSecond      = {{ru}};
+            double tolerance   = 0.000001;
+
+            double costs = c.CalculateCosts();
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+            };
+            Console.WriteLine(JsonSerializer.Serialize(c, options));
+
+
+            Assert.True(c.calculatedStoragePerMonth + tolerance > expectedStorageCostsPerMonth);
+            Assert.True(c.calculatedStoragePerMonth - tolerance < expectedStorageCostsPerMonth);
+
+            Assert.True(c.calculatedTotalPerMonth + tolerance > expectedTotalPerMonth);
+            Assert.True(c.calculatedTotalPerMonth - tolerance < expectedTotalPerMonth);
+        }
+    }
+}
+
+/*
+{{ spec }}
+*/
+
+/*
+{{ calc|safe }}
+*/
