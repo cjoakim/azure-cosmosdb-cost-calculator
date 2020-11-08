@@ -12,7 +12,7 @@ Options:
 __author__  = 'Chris Joakim'
 __email__   = "chjoakim@microsoft.com,christopher.joakim@gmail.com"
 __license__ = "MIT"
-__version__ = "2020.11.07"
+__version__ = "2020.11.08"
 
 import json
 import sys
@@ -63,33 +63,42 @@ def generate_scenarios():
             rc = region_count(rt)
             for az in availability_zone_types():
                 for gb in database_gb_sizes():
-                    seq = seq + 1
-                    specfile   = 'specs/{}-{}-{}-{}-{}-{}gb.txt'.format(seq, pt, rt, rc, az, gb)
-                    resultfile = '{}-{}-{}-{}-{}-{}gb.json'.format(seq, pt, rt, rc, az, gb)
-                    content = "\n".join(specification_lines(seq, pt, rt, rc, az, gb))
-                    write_file(specfile, content)
-                    script_lines.append('dotnet run {} > {}'.format(specfile, resultfile))
+                    valid_combo = True
+                    if (rt == 'multi-region') and (az == 'azone'):
+                        # see https://docs.microsoft.com/en-us/azure/cosmos-db/high-availability#availability-zone-support
+                        valid_combo = False 
+                    if valid_combo:
+                        seq = seq + 1
+                        specfile   = 'spec_matrix/{}-{}-{}-{}-{}-{}gb.txt'.format(seq, pt, rt, rc, az, gb)
+                        resultfile = 'spec_matrix/out/{}-{}-{}-{}-{}-{}gb.json'.format(seq, pt, rt, rc, az, gb)
+                        content = "\n".join(specification_lines(seq, pt, rt, rc, az, gb))
+                        write_file(specfile, content)
+                        script_lines.append('dotnet run {} > {}'.format(specfile, resultfile))
 
     script_lines.append('')
-    write_file('execute_specs_matrix.sh', "\n".join(script_lines))
+    write_file('execute_spec_matrix.sh', "\n".join(script_lines))
 
 def specification_lines(seq, pt, rt, rc, az, gb):
     az_bool = 'false'
     if az == 'azone':
         az_bool = 'true'
+    if rc < 2:
+        repl_gb = 0.0
+    else:
+        repl_gb = float(gb) / 10.0
 
     lines = list()
     lines.append('Azure CosmosDB Cost Calculator Specification File')
-    lines.append('version: {}'.format(current_date()))
     lines.append('')
-    lines.append('container:            container{}'.format(seq))
-    lines.append('provisioning_type:    {}'.format(pt))
-    lines.append('replication_type:     {}'.format(rt))
-    lines.append('region_count:         {}'.format(rc))
-    lines.append('availability_zone:    {}'.format(az_bool))
-    lines.append('size_in_gb:           {}'.format(gb))
-    lines.append('synapse_link_enabled: {}'.format('true'))
-    lines.append('calculate_costs:      {}'.format('true'))
+    lines.append('container:               container{}'.format(seq))
+    lines.append('provisioning_type:       {}'.format(pt))
+    lines.append('replication_type:        {}'.format(rt))
+    lines.append('region_count:            {}'.format(rc))
+    lines.append('availability_zone:       {}'.format(az_bool))
+    lines.append('size_in_gb:              {}'.format(gb))
+    lines.append('replicated_gb_per_month: {}'.format(repl_gb))
+    lines.append('synapse_link_enabled:    {}'.format('true'))
+    lines.append('calculate_costs:         {}'.format('true'))
     lines.append('')
     return lines
 
