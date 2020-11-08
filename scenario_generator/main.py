@@ -19,6 +19,9 @@ import sys
 import time
 import os
 
+import arrow
+import jinja2
+
 from docopt import docopt
 
 def print_options(msg):
@@ -33,7 +36,7 @@ def replication_types():
     return 'single,multi-region,multi-master'.split(',')
 
 def availability_zone_types():
-    return [False, True]
+    return ['azone', 'noazone']
 
 def database_gb_sizes():
     return '3,300,30000'.split(',')
@@ -47,21 +50,64 @@ def region_count(replication_type):
         return 1
 
 def generate_scenarios():
-    seq, rc = 0, 0
+    seq, rc, specfiles = 0, 0, list()
     for pt in provisioning_types():
         for rt in replication_types():
             rc = region_count(rt)
-            for az_bool in availability_zone_types():
+            for az in availability_zone_types():
                 for gb in database_gb_sizes():
                     seq = seq + 1
-                    print('{}: pt: {}, rt: {}, az: {}, gb: {}, rc: {}'.format(
-                        seq, pt, rt, az_bool, gb, rc))
+                    outfile = 'specs/{}-{}-{}-{}-{}-{}gb.txt'.format(seq, pt, rt, rc, az, gb)
+                    content = "\n".join(specification_lines(seq, pt, rt, rc, az, gb))
+                    write_file(outfile, content)
+                    specfiles.append(outfile)
+
+def specification_lines(seq, pt, rt, rc, az, gb):
+    utc = arrow.utcnow()
+    clt = str(utc.to('US/Eastern')).split('T')[0]
+
+    az_bool = 'false'
+    if az == 'azone':
+        az_bool = 'true'
+    lines = list()
+    lines.append('Azure CosmosDB Cost Calculator Specification File')
+    lines.append('version: {}'.format(clt))
+    lines.append('')
+    lines.append('container:            container{}'.format(seq))
+    lines.append('provisioning_type:    {}'.format(pt))
+    lines.append('replication_type:     {}'.format(rt))
+    lines.append('region_count:         {}'.format(rc))
+    lines.append('availability_zone:    {}'.format(az_bool))
+    lines.append('size_in_gb:           {}'.format(gb))
+    lines.append('synapse_link_enabled: {}'.format('true'))
+    lines.append('calculate_costs:      {}'.format('true'))
+    lines.append('')
+    return lines
 
 def generate_execution_scripts():
     print('generate_execution_scripts')
 
 def generate_unit_tests():
     print('generate_unit_tests')
+
+def write_file(outfile, s, verbose=True):
+    with open(outfile, 'w') as f:
+        f.write(s)
+        if verbose:
+            print('file written: {}'.format(outfile))
+
+def render(template, values):
+    return template.render(values)
+
+def get_template(root_dir, name):
+    filename = 'templates/{}'.format(name)
+    return cls.get_jinja2_env(root_dir).get_template(filename)
+
+def get_jinja2_env(root_dir):
+    print('get_jinja2_env root_dir: {}'.format(root_dir))
+    return jinja2.Environment(
+        loader = jinja2.FileSystemLoader(
+            root_dir), autoescape=True)
 
 
 if __name__ == "__main__":
