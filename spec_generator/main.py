@@ -82,7 +82,7 @@ def generate_matrix_specs():
                         write_file(specfile, content)
                         script_lines.append('')
                         script_lines.append("echo 'executing cost spec {} ...'".format(specbase))
-                        script_lines.append('dotnet run {} > {}'.format(specfile, resultfile))
+                        script_lines.append('dotnet run spec_matrix/{} > {}'.format(specbase, resultfile))
                         markdown_lines.append('| {} | {} | {} | {} | {} | {} |'.format(pt, rt, rc, az, gb, specbase))
 
     script_lines.append('')

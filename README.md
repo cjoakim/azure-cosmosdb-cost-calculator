@@ -308,7 +308,6 @@ shown in the table below.
 
 ```
 $ cd cosmos_calc
-$ mkdir out
 
 $ dotnet build
 
