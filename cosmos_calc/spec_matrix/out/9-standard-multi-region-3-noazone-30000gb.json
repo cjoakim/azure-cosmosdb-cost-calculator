@@ -6,17 +6,17 @@
   "synapseLinkEnabled": true,
   "replicationType": "multi-region",
   "regionCount": 3,
-  "ruPerSecond": 0,
+  "ruPerSecond": 300000,
   "maxHistoricalManualRu": 0,
   "maxHistoricalAutoRu": 0,
   "replicatedGBPerMonth": 3000,
   "calculatedMinRU": 300000,
   "calculatedRatePer100RU": 0.012,
-  "calculatedRUInHundreds": 0,
-  "calculatedRuDollarsPerHour": 0,
-  "calculatedRuDollarsPerMonth": 0,
+  "calculatedRUInHundreds": 3000,
+  "calculatedRuDollarsPerHour": 36,
+  "calculatedRuDollarsPerMonth": 26208,
   "calculatedEgressPerMonth": 153.255,
   "calculatedStoragePerMonth": 22500,
   "calculatedAnalyticalStoragePerMonth": 600,
-  "calculatedTotalPerMonth": 23253.255
+  "calculatedTotalPerMonth": 49461.255
 }

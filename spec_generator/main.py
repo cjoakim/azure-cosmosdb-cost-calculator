@@ -50,6 +50,9 @@ def region_count(replication_type):
 
 def generate_matrix_specs():
     seq, rc, script_lines, markdown_lines = 0, 0, list(), list()
+    repo_home = calculator_home_dir()
+    spec_dir  = '{}/cosmos_calc/spec_matrix'.format(repo_home)
+    exec_script = '{}/cosmos_calc/execute_spec_matrix.sh'.format(repo_home)
 
     script_lines.append('#!/bin/bash')
     script_lines.append('')
@@ -72,16 +75,19 @@ def generate_matrix_specs():
                     if valid_combo:
                         seq = seq + 1
                         specbase   = '{}-{}-{}-{}-{}-{}gb.txt'.format(seq, pt, rt, rc, az, gb)
-                        specfile   = 'spec_matrix/{}'.format(specbase)
+                        specfile   = '{}/{}'.format(spec_dir, specbase)
                         resultfile = 'spec_matrix/out/{}-{}-{}-{}-{}-{}gb.json'.format(seq, pt, rt, rc, az, gb)
                         content = "\n".join(specification_lines(seq, pt, rt, rc, az, gb))
                         write_file(specfile, content)
+                        script_lines.append('')
+                        script_lines.append("echo 'executing cost spec {} ...'".format(specbase))
                         script_lines.append('dotnet run {} > {}'.format(specfile, resultfile))
                         markdown_lines.append('| {} | {} | {} | {} | {} | {} |'.format(pt, rt, rc, az, gb, specbase))
 
     script_lines.append('')
-    write_file('execute_spec_matrix.sh', "\n".join(script_lines))
-    write_file('spec_matrix.md', "\n".join(markdown_lines))
+    write_file(exec_script, "\n".join(script_lines))
+    #write_file('spec_matrix.md', "\n".join(markdown_lines))
+    print("\n".join(markdown_lines))
 
 def specification_lines(seq, pt, rt, rc, az, gb):
     az_bool = 'false'
@@ -102,10 +108,18 @@ def specification_lines(seq, pt, rt, rc, az, gb):
     lines.append('availability_zone:       {}'.format(az_bool))
     lines.append('size_in_gb:              {}'.format(gb))
     lines.append('replicated_gb_per_month: {}'.format(repl_gb))
+    lines.append('ru_per_second:           {}'.format(ru_for_spec(gb)))
     lines.append('synapse_link_enabled:    {}'.format('true'))
     lines.append('calculate_costs:         {}'.format('true'))
     lines.append('')
     return lines
+
+def ru_for_spec(gb):
+    ru = int(gb) * 10
+    if ru < 400:
+        return 400
+    else:
+        return ru
 
 def generate_unit_tests():
     print('generate_unit_tests')

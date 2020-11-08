@@ -304,7 +304,6 @@ shown in the table below.
 | autoscale | multi-master | 3 | noazone | 300 | 29-autoscale-multi-master-3-noazone-300gb.txt |
 | autoscale | multi-master | 3 | noazone | 30000 | 30-autoscale-multi-master-3-noazone-30000gb.txt |
 
-
 ### Generator Code
 
 The python code in directory **spec_generator** was used to generate these spec files and 
