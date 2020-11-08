@@ -50,28 +50,37 @@ def region_count(replication_type):
         return 1
 
 def generate_scenarios():
-    seq, rc, specfiles = 0, 0, list()
+    seq, rc, script_lines = 0, 0, list()
+
+    script_lines.append('#!/bin/bash')
+    script_lines.append('')
+    script_lines.append('# Execute the generated matrix of specifications.')
+    script_lines.append('# Chris Joakim, Microsoft, {}'.format(current_date()))
+    script_lines.append('')
+
     for pt in provisioning_types():
         for rt in replication_types():
             rc = region_count(rt)
             for az in availability_zone_types():
                 for gb in database_gb_sizes():
                     seq = seq + 1
-                    outfile = 'specs/{}-{}-{}-{}-{}-{}gb.txt'.format(seq, pt, rt, rc, az, gb)
+                    specfile   = 'specs/{}-{}-{}-{}-{}-{}gb.txt'.format(seq, pt, rt, rc, az, gb)
+                    resultfile = '{}-{}-{}-{}-{}-{}gb.json'.format(seq, pt, rt, rc, az, gb)
                     content = "\n".join(specification_lines(seq, pt, rt, rc, az, gb))
-                    write_file(outfile, content)
-                    specfiles.append(outfile)
+                    write_file(specfile, content)
+                    script_lines.append('dotnet run {} > {}'.format(specfile, resultfile))
+
+    script_lines.append('')
+    write_file('execute_specs_matrix.sh', "\n".join(script_lines))
 
 def specification_lines(seq, pt, rt, rc, az, gb):
-    utc = arrow.utcnow()
-    clt = str(utc.to('US/Eastern')).split('T')[0]
-
     az_bool = 'false'
     if az == 'azone':
         az_bool = 'true'
+
     lines = list()
     lines.append('Azure CosmosDB Cost Calculator Specification File')
-    lines.append('version: {}'.format(clt))
+    lines.append('version: {}'.format(current_date()))
     lines.append('')
     lines.append('container:            container{}'.format(seq))
     lines.append('provisioning_type:    {}'.format(pt))
@@ -89,6 +98,10 @@ def generate_execution_scripts():
 
 def generate_unit_tests():
     print('generate_unit_tests')
+
+def current_date():
+    utc = arrow.utcnow()
+    return str(utc.to('US/Eastern')).split('T')[0]
 
 def write_file(outfile, s, verbose=True):
     with open(outfile, 'w') as f:
