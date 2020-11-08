@@ -260,38 +260,38 @@ Then open file coveragereport/index.html in your browser.
 Bash script **execute_spec_matrix.sh** executes the **matrix** of combinations
 shown below.
 
-| Prov | Repl | RC | AvZ | DB Size | Spec File |
-| ------------ | ----------- | ------- | ------- | ------------- | --------- |
-| standard | single | 1 | azone | 3 | spec_matrix/1-standard-single-1-azone-3gb.txt |
-| standard | single | 1 | azone | 300 | spec_matrix/2-standard-single-1-azone-300gb.txt |
-| standard | single | 1 | azone | 30000 | spec_matrix/3-standard-single-1-azone-30000gb.txt |
-| standard | single | 1 | noazone | 3 | spec_matrix/4-standard-single-1-noazone-3gb.txt |
-| standard | single | 1 | noazone | 300 | spec_matrix/5-standard-single-1-noazone-300gb.txt |
-| standard | single | 1 | noazone | 30000 | spec_matrix/6-standard-single-1-noazone-30000gb.txt |
-| standard | multi-region | 3 | noazone | 3 | spec_matrix/7-standard-multi-region-3-noazone-3gb.txt |
-| standard | multi-region | 3 | noazone | 300 | spec_matrix/8-standard-multi-region-3-noazone-300gb.txt |
-| standard | multi-region | 3 | noazone | 30000 | spec_matrix/9-standard-multi-region-3-noazone-30000gb.txt |
-| standard | multi-master | 3 | azone | 3 | spec_matrix/10-standard-multi-master-3-azone-3gb.txt |
-| standard | multi-master | 3 | azone | 300 | spec_matrix/11-standard-multi-master-3-azone-300gb.txt |
-| standard | multi-master | 3 | azone | 30000 | spec_matrix/12-standard-multi-master-3-azone-30000gb.txt |
-| standard | multi-master | 3 | noazone | 3 | spec_matrix/13-standard-multi-master-3-noazone-3gb.txt |
-| standard | multi-master | 3 | noazone | 300 | spec_matrix/14-standard-multi-master-3-noazone-300gb.txt |
-| standard | multi-master | 3 | noazone | 30000 | spec_matrix/15-standard-multi-master-3-noazone-30000gb.txt |
-| autoscale | single | 1 | azone | 3 | spec_matrix/16-autoscale-single-1-azone-3gb.txt |
-| autoscale | single | 1 | azone | 300 | spec_matrix/17-autoscale-single-1-azone-300gb.txt |
-| autoscale | single | 1 | azone | 30000 | spec_matrix/18-autoscale-single-1-azone-30000gb.txt |
-| autoscale | single | 1 | noazone | 3 | spec_matrix/19-autoscale-single-1-noazone-3gb.txt |
-| autoscale | single | 1 | noazone | 300 | spec_matrix/20-autoscale-single-1-noazone-300gb.txt |
-| autoscale | single | 1 | noazone | 30000 | spec_matrix/21-autoscale-single-1-noazone-30000gb.txt |
-| autoscale | multi-region | 3 | noazone | 3 | spec_matrix/22-autoscale-multi-region-3-noazone-3gb.txt |
-| autoscale | multi-region | 3 | noazone | 300 | spec_matrix/23-autoscale-multi-region-3-noazone-300gb.txt |
-| autoscale | multi-region | 3 | noazone | 30000 | spec_matrix/24-autoscale-multi-region-3-noazone-30000gb.txt |
-| autoscale | multi-master | 3 | azone | 3 | spec_matrix/25-autoscale-multi-master-3-azone-3gb.txt |
-| autoscale | multi-master | 3 | azone | 300 | spec_matrix/26-autoscale-multi-master-3-azone-300gb.txt |
-| autoscale | multi-master | 3 | azone | 30000 | spec_matrix/27-autoscale-multi-master-3-azone-30000gb.txt |
-| autoscale | multi-master | 3 | noazone | 3 | spec_matrix/28-autoscale-multi-master-3-noazone-3gb.txt |
-| autoscale | multi-master | 3 | noazone | 300 | spec_matrix/29-autoscale-multi-master-3-noazone-300gb.txt |
-| autoscale | multi-master | 3 | noazone | 30000 | spec_matrix/30-autoscale-multi-master-3-noazone-30000gb.txt |
+| Prov | Repl | RC | AvZ | DB GB | Spec File |
+| ---- | ---- | -- | --- | ----- | --------- |
+| standard | single | 1 | azone | 3 | 1-standard-single-1-azone-3gb.txt |
+| standard | single | 1 | azone | 300 | 2-standard-single-1-azone-300gb.txt |
+| standard | single | 1 | azone | 30000 | 3-standard-single-1-azone-30000gb.txt |
+| standard | single | 1 | noazone | 3 | 4-standard-single-1-noazone-3gb.txt |
+| standard | single | 1 | noazone | 300 | 5-standard-single-1-noazone-300gb.txt |
+| standard | single | 1 | noazone | 30000 | 6-standard-single-1-noazone-30000gb.txt |
+| standard | multi-region | 3 | noazone | 3 | 7-standard-multi-region-3-noazone-3gb.txt |
+| standard | multi-region | 3 | noazone | 300 | 8-standard-multi-region-3-noazone-300gb.txt |
+| standard | multi-region | 3 | noazone | 30000 | 9-standard-multi-region-3-noazone-30000gb.txt |
+| standard | multi-master | 3 | azone | 3 | 10-standard-multi-master-3-azone-3gb.txt |
+| standard | multi-master | 3 | azone | 300 | 11-standard-multi-master-3-azone-300gb.txt |
+| standard | multi-master | 3 | azone | 30000 | 12-standard-multi-master-3-azone-30000gb.txt |
+| standard | multi-master | 3 | noazone | 3 | 13-standard-multi-master-3-noazone-3gb.txt |
+| standard | multi-master | 3 | noazone | 300 | 14-standard-multi-master-3-noazone-300gb.txt |
+| standard | multi-master | 3 | noazone | 30000 | 15-standard-multi-master-3-noazone-30000gb.txt |
+| autoscale | single | 1 | azone | 3 | 16-autoscale-single-1-azone-3gb.txt |
+| autoscale | single | 1 | azone | 300 | 17-autoscale-single-1-azone-300gb.txt |
+| autoscale | single | 1 | azone | 30000 | 18-autoscale-single-1-azone-30000gb.txt |
+| autoscale | single | 1 | noazone | 3 | 19-autoscale-single-1-noazone-3gb.txt |
+| autoscale | single | 1 | noazone | 300 | 20-autoscale-single-1-noazone-300gb.txt |
+| autoscale | single | 1 | noazone | 30000 | 21-autoscale-single-1-noazone-30000gb.txt |
+| autoscale | multi-region | 3 | noazone | 3 | 22-autoscale-multi-region-3-noazone-3gb.txt |
+| autoscale | multi-region | 3 | noazone | 300 | 23-autoscale-multi-region-3-noazone-300gb.txt |
+| autoscale | multi-region | 3 | noazone | 30000 | 24-autoscale-multi-region-3-noazone-30000gb.txt |
+| autoscale | multi-master | 3 | azone | 3 | 25-autoscale-multi-master-3-azone-3gb.txt |
+| autoscale | multi-master | 3 | azone | 300 | 26-autoscale-multi-master-3-azone-300gb.txt |
+| autoscale | multi-master | 3 | azone | 30000 | 27-autoscale-multi-master-3-azone-30000gb.txt |
+| autoscale | multi-master | 3 | noazone | 3 | 28-autoscale-multi-master-3-noazone-3gb.txt |
+| autoscale | multi-master | 3 | noazone | 300 | 29-autoscale-multi-master-3-noazone-300gb.txt |
+| autoscale | multi-master | 3 | noazone | 30000 | 30-autoscale-multi-master-3-noazone-30000gb.txt |
 
 Note: The python code in directory **spec_generator** was used to generate
 these spec files and corresponding Xunit files.
