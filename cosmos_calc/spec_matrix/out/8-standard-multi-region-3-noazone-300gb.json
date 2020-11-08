@@ -1,0 +1,22 @@
+{
+  "name": "container8",
+  "sizeInGB": 300,
+  "provisioningType": "standard",
+  "availabilityZone": false,
+  "synapseLinkEnabled": true,
+  "replicationType": "multi-region",
+  "regionCount": 3,
+  "ruPerSecond": 0,
+  "maxHistoricalManualRu": 0,
+  "maxHistoricalAutoRu": 0,
+  "replicatedGBPerMonth": 30,
+  "calculatedMinRU": 3000,
+  "calculatedRatePer100RU": 0.012,
+  "calculatedRUInHundreds": 0,
+  "calculatedRuDollarsPerHour": 0,
+  "calculatedRuDollarsPerMonth": 0,
+  "calculatedEgressPerMonth": 2.095,
+  "calculatedStoragePerMonth": 225,
+  "calculatedAnalyticalStoragePerMonth": 6,
+  "calculatedTotalPerMonth": 233.095
+}

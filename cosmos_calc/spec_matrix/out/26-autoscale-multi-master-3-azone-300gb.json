@@ -1,0 +1,22 @@
+{
+  "name": "container26",
+  "sizeInGB": 300,
+  "provisioningType": "autoscale",
+  "availabilityZone": true,
+  "synapseLinkEnabled": true,
+  "replicationType": "multi-master",
+  "regionCount": 3,
+  "ruPerSecond": 0,
+  "maxHistoricalManualRu": 0,
+  "maxHistoricalAutoRu": 0,
+  "replicatedGBPerMonth": 30,
+  "calculatedMinRU": 3000,
+  "calculatedRatePer100RU": 0.016,
+  "calculatedRUInHundreds": 0,
+  "calculatedRuDollarsPerHour": 0,
+  "calculatedRuDollarsPerMonth": 0,
+  "calculatedEgressPerMonth": 2.095,
+  "calculatedStoragePerMonth": 225,
+  "calculatedAnalyticalStoragePerMonth": 6,
+  "calculatedTotalPerMonth": 233.095
+}

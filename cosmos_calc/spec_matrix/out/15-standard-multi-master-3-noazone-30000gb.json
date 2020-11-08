@@ -1,0 +1,22 @@
+{
+  "name": "container15",
+  "sizeInGB": 30000,
+  "provisioningType": "standard",
+  "availabilityZone": false,
+  "synapseLinkEnabled": true,
+  "replicationType": "multi-master",
+  "regionCount": 3,
+  "ruPerSecond": 0,
+  "maxHistoricalManualRu": 0,
+  "maxHistoricalAutoRu": 0,
+  "replicatedGBPerMonth": 3000,
+  "calculatedMinRU": 300000,
+  "calculatedRatePer100RU": 0.016,
+  "calculatedRUInHundreds": 0,
+  "calculatedRuDollarsPerHour": 0,
+  "calculatedRuDollarsPerMonth": 0,
+  "calculatedEgressPerMonth": 153.255,
+  "calculatedStoragePerMonth": 22500,
+  "calculatedAnalyticalStoragePerMonth": 600,
+  "calculatedTotalPerMonth": 23253.255
+}

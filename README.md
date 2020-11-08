@@ -258,7 +258,7 @@ Then open file coveragereport/index.html in your browser.
 ## Test Specification Matrix
 
 Bash script **execute_spec_matrix.sh** executes the **matrix** of combinations
-shown below.
+shown in the table below.
 
 ### Key
 
@@ -267,7 +267,7 @@ shown below.
 - RC = Region Count
 - AvZ = Availability Zone
 - DB GB = Size of the database contents in Gigabytes
-- Spec File = the cost calculator specification file in directory spec_matrix/.
+- Spec File = the cost calculator specification file in directory **cosmos_calc/spec_matrix/**
 
 ### Table
 
@@ -304,8 +304,12 @@ shown below.
 | autoscale | multi-master | 3 | noazone | 300 | 29-autoscale-multi-master-3-noazone-300gb.txt |
 | autoscale | multi-master | 3 | noazone | 30000 | 30-autoscale-multi-master-3-noazone-30000gb.txt |
 
-Note: The python code in directory **spec_generator** was used to generate
-these spec files and corresponding C# Xunit files.
+
+### Generator Code
+
+The python code in directory **spec_generator** was used to generate these spec files and 
+corresponding C# Xunit files.  This code requires that environment variable
+**AZURE_COSMOSDB_COST_CALCULATOR_HOME** is set on your system to the root of the GitHub repository.
 
 ---
 

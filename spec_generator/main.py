@@ -109,10 +109,15 @@ def specification_lines(seq, pt, rt, rc, az, gb):
 
 def generate_unit_tests():
     print('generate_unit_tests')
+    home = calculator_home_dir()
+    print(home)
 
 def current_date():
     utc = arrow.utcnow()
     return str(utc.to('US/Eastern')).split('T')[0]
+
+def calculator_home_dir():
+    return os.environ['AZURE_COSMOSDB_COST_CALCULATOR_HOME']
 
 def write_file(outfile, s, verbose=True):
     with open(outfile, 'w') as f:
