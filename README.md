@@ -236,10 +236,8 @@ Xunit unit tests are included in this project.
 $ cd cosmos_calc.tests/
 $ dotnet test
 ...
-Test Run Successful.
-Total tests: 97
-     Passed: 97
- Total time: 1.1151 Seconds
+Passed!  - Failed:     0, Passed:    97, Skipped:     0, Total:    97, Duration: 195 ms
+...
 ```
 
 ### Executing the unit tests outside of Visual Studio, with Coverage
@@ -251,7 +249,6 @@ $ ./run_tests.sh
 ```
 
 Then open file coveragereport/index.html in your browser.
-
 
 ---
 
@@ -330,6 +327,7 @@ corresponding C# Xunit files.  This code requires that environment variable
 
 ### What's New
 
+- 2021/01/06: Upgraded project from **netcoreapp3.1** to **net5.0**
 - Text Specification Matrix for use-case and code coverage
 - Synapse Link Storage Costs
 - Cross-region Egress Costs

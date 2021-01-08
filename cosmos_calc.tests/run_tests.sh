@@ -5,7 +5,6 @@
 
 rm -rf TestResults/
 
-
 # Execute the Xunit tests, sending output to both stdout and test.out
 dotnet test --collect:"XPlat Code Coverage" | tee test.out
 
