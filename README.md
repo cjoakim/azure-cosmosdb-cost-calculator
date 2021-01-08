@@ -334,10 +334,6 @@ corresponding C# Xunit files.  This code requires that environment variable
 - Magic numbers (hourly rates, egress tiers, storage costs, etc.) extracted to class Constants
 - Code Coverage in the Unit Tests - 100% coverage of classes Container and SpecProcessor
 
-### TODO 
-
-- Add support for Serverless, currently in preview
-
 ---
 
 ## CosmosDB Cost Links
